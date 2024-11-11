@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:iconTint="@color/green_master"/>
+    <item
+        android:title="Cart"
+        android:id="@+id/cart"
+        android:icon="@drawable/ic_cart"
+        android:iconTint="@color/green_master"/>
+    <item
+        android:title="Note"
+        android:id="@+id/note"
+        android:icon="@drawable/ic_note"
+        android:iconTint="@color/green_master"/>
+    <item
+        android:title="Money"
+        android:id="@+id/money"
+        android:icon="@drawable/ic_money"
+        android:iconTint="@color/green_master"/>
+
+</menu>

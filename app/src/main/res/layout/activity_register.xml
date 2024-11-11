@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.RegisterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="308dp"
+            android:layout_height="376dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
+
+        <!--   Username     -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_username"
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/username"
+                android:inputType="textPersonName"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Email  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Password  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_email"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Nomor Telpon  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_nomorTelpon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/nomor_telpon"
+                android:inputType="text|phone"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Nama Toko  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_namaToko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_nomorTelpon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/nama_toko"
+                android:inputType="text"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Alamat Toko  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_alamat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_namaToko">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="261dp"
+                android:layout_height="match_parent"
+                android:hint="@string/alamat"
+                android:inputType="text"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginEnd="71dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_alamat">
+
+
+            <TextView
+                android:id="@+id/tv_sudahPunyaAkun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sudah punya akun?"
+                android:textSize="12sp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_masuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masuk"
+                android:textSize="12sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="@color/button"
+            android:text="@string/daftar"
+            app:layout_constraintTop_toBottomOf="@id/ll1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
