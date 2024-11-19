@@ -5,4 +5,8 @@
     <color name="green_master">#15B77E</color>
     <color name="grey_text">#B9C2C7</color>
     <color name="button">#032432</color>
+    
+    // Color Premium Card
+    <color name="black_card">#2C3729</color>
+    <color name="gold_card">#CBB57B</color>
 </resources>

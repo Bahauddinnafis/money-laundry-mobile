@@ -1,19 +1,13 @@
 package com.nafis.moneylaundry.models
 
-data class AuthResponse(
-    val status: Boolean,
-    val statusCode: Int,
+data class LoginResponse(
+    val status: String,
     val message: String,
-    val data: LoginData
+    val data: UserLogin?
 )
 
-data class LoginData(
-    val token: String,
-    val user: User
-)
-
-data class User(
+data class UserLogin(
     val id: Int,
-    val name: String,
-    val email: String
+    val name: String?,
+    val email: String?,
 )

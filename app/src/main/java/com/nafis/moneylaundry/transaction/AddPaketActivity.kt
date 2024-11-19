@@ -1,11 +1,7 @@
 package com.nafis.moneylaundry.transaction
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.databinding.ActivityAddPaketBinding
 import com.nafis.moneylaundry.fragments.PaketLaundryFragment

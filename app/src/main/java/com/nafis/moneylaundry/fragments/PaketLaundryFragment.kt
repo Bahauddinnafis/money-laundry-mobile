@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.nafis.moneylaundry.R
-import com.nafis.moneylaundry.adapter.PaketLaundryRecyclerview
 import com.nafis.moneylaundry.adapter.PaketLaundryVerticalRecyclerview
 import com.nafis.moneylaundry.data.PaketLaundry
 import com.nafis.moneylaundry.databinding.FragmentPaketLaundryBinding
+import com.nafis.moneylaundry.models.PaketLaundryModel
 import com.nafis.moneylaundry.transaction.AddPaketActivity
+import com.nafis.moneylaundry.transaction.NewTransactionActivity
 
 class PaketLaundryFragment : Fragment() {
     private var _binding: FragmentPaketLaundryBinding? = null
@@ -27,7 +26,7 @@ class PaketLaundryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPaketLaundryBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -60,9 +59,16 @@ class PaketLaundryFragment : Fragment() {
 
         val allPaketData = PaketLaundry.allCategory
         adapter = PaketLaundryVerticalRecyclerview(allPaketData)
-        recyclerView.adapter = adapter
 
-        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.item_spacing)
-        recyclerView.addItemDecoration(VerticalSpaceItemDecoration(spacingInPixels))
+        // Recycler View Vertical
+        adapter.setOnItemClickListener(object : PaketLaundryVerticalRecyclerview.OnItemClickListener {
+            override fun onItemClick(paketLaundry: PaketLaundryModel) {
+                val intent = Intent(requireContext(), NewTransactionActivity::class.java)
+                intent.putExtra("paketLaundry", paketLaundry)
+                startActivity(intent)
+            }
+        })
+
+        recyclerView.adapter = adapter
     }
 }

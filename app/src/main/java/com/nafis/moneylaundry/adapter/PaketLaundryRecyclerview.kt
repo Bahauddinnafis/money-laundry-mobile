@@ -11,6 +11,17 @@ import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.models.PaketLaundryModel
 
 class PaketLaundryRecyclerview(private val listPaketLaundry: List<PaketLaundryModel>): RecyclerView.Adapter<PaketLaundryRecyclerview.MyViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(paketLaundry: PaketLaundryModel)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,11 +35,13 @@ class PaketLaundryRecyclerview(private val listPaketLaundry: List<PaketLaundryMo
 
         holder.itemView.findViewById<TextView>(R.id.tv_paketLaundry).text = currentPaketLaundry.name
         holder.itemView.findViewById<ImageView>(R.id.iv_paketLaundry).setImageResource(currentPaketLaundry.photo)
+
+        holder.itemView.setOnClickListener {
+            listener?.onItemClick(currentPaketLaundry)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return listPaketLaundry.size
-    }
+    override fun getItemCount(): Int = listPaketLaundry.size
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

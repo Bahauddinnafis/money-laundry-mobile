@@ -5,13 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.nafis.moneylaundry.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.nafis.moneylaundry.adapter.DaftarTransaksiRecyclerview
+import com.nafis.moneylaundry.data.DaftarTransaksi
 import com.nafis.moneylaundry.databinding.FragmentDaftarTransaksiBinding
 
 
 class DaftarTransaksiFragment : Fragment() {
     private var _binding: FragmentDaftarTransaksiBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: DaftarTransaksiRecyclerview
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,26 +32,26 @@ class DaftarTransaksiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentDaftarTransaksiBinding.bind(view)
+        setUpRecyclerView()
 
-        val buttons = listOf(
-            binding.btnAllTransactions,
-            binding.btnCompleted,
-            binding.btnInProgress,
-            binding.btnCanceled
-        )
-
-        buttons.forEach { button ->
-            button.setOnClickListener {
-                buttons.forEach { it.setBackgroundResource(R.drawable.button_unselected_background) }
-
-                button.setBackgroundResource(R.drawable.button_selected_background)
-            }
+        binding.ivBackButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
         }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setUpRecyclerView() {
+        recyclerView = binding.rvDaftarTransaksi
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
+//        recyclerView.setHasFixedSize(true)
+        val allDaftarTransaksi = DaftarTransaksi.allPaketLaundry
+        adapter = DaftarTransaksiRecyclerview(allDaftarTransaksi)
+        recyclerView.adapter = adapter
     }
 }

@@ -7,4 +7,191 @@
     android:layout_height="match_parent"
     tools:context=".transaction.NewTransactionActivity">
 
+    <ImageView
+        android:id="@+id/iv_backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="Back"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_transaksiBaru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paket Cuci Lipat"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_namaPaket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="40dp"
+        android:textColorHint="@color/black"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:enabled="false"
+        app:cursorColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_transaksiBaru">
+
+        <EditText
+            android:id="@+id/edt_namaPaket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Paket"
+            android:inputType="none"
+            android:background="@drawable/rounded_edittext_background"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:enabled="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:cursorColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_namaPaket">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_cutomer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Customer"
+            android:inputType="text"
+            android:background="@drawable/rounded_edittext_background"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--  Order Date  -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_orderDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:hintTextColor="@color/black"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom"
+        app:layout_constraintTop_toBottomOf="@id/til_customer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_orderDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Order Date"
+            android:focusable="false"
+            android:inputType="none"
+            android:background="@drawable/rounded_edittext_background"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!--  Pickup Date  -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_pickUpDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:hintTextColor="@color/black"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom"
+        app:layout_constraintTop_toBottomOf="@id/til_orderDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_pickUpDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pickup Date"
+            android:focusable="false"
+            android:inputType="none"
+            android:background="@drawable/rounded_edittext_background"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--  Addons  -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_addOns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:hintTextColor="@color/black"
+        app:endIconDrawable="@drawable/ic_add"
+        app:endIconMode="custom"
+        app:layout_constraintTop_toBottomOf="@id/til_pickUpDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_addOns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Addons"
+            android:focusable="false"
+            android:inputType="none"
+            android:background="@drawable/rounded_edittext_background"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_deskripsiPaket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:cursorColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_addOns">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:hint="Deskripsi Paket"
+            android:inputType="text"
+            android:maxLines="4"
+            android:background="@drawable/rounded_edittext_background"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_buatPaket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/button"
+        android:text="Buat Paket"
+        app:layout_constraintTop_toBottomOf="@id/til_deskripsiPaket"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

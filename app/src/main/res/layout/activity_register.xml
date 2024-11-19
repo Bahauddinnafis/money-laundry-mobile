@@ -25,7 +25,7 @@
         <!--   Username     -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:textColorHint="@color/grey_text"
@@ -37,8 +37,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_username"
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/username"
                 android:inputType="textPersonName"
                 android:background="@drawable/rounded_edittext_background"/>
@@ -48,7 +48,7 @@
         <!--  Email  -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_email"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
@@ -60,8 +60,9 @@
             app:layout_constraintTop_toBottomOf="@id/til_username">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:background="@drawable/rounded_edittext_background"/>
@@ -71,7 +72,7 @@
         <!--  Password  -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
@@ -84,18 +85,19 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:background="@drawable/rounded_edittext_background"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--  Nomor Telpon  -->
+<!--    Password Confirmation    -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_nomorTelpon"
-            android:layout_width="wrap_content"
+            android:id="@+id/til_passwordConfirmation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
@@ -104,11 +106,37 @@
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_password">
+            app:layout_constraintTop_toBottomOf="@id/til_password"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:id="@+id/edt_passwordConfirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/konfirmasi_password"
+                android:inputType="textPassword"
+                android:background="@drawable/rounded_edittext_background"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--  Nomor Telpon  -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_nomorTelpon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/grey_text"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_passwordConfirmation">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_nomorTelpon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/nomor_telpon"
                 android:inputType="text|phone"
                 android:background="@drawable/rounded_edittext_background"/>
@@ -118,7 +146,7 @@
         <!--  Nama Toko  -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_namaToko"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
@@ -130,8 +158,9 @@
             app:layout_constraintTop_toBottomOf="@id/til_nomorTelpon">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:id="@+id/edt_namaToko"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/nama_toko"
                 android:inputType="text"
                 android:background="@drawable/rounded_edittext_background"/>
@@ -141,7 +170,7 @@
         <!--  Alamat Toko  -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_alamat"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
@@ -153,8 +182,9 @@
             app:layout_constraintTop_toBottomOf="@id/til_namaToko">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="261dp"
-                android:layout_height="match_parent"
+                android:id="@+id/edt_alamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/alamat"
                 android:inputType="text"
                 android:background="@drawable/rounded_edittext_background"/>
@@ -167,7 +197,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layout_marginEnd="71dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_alamat">
 
@@ -196,11 +226,10 @@
 
         <Button
             android:id="@+id/btn_register"
-            android:layout_width="293dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="50dp"
             android:backgroundTint="@color/button"
             android:text="@string/daftar"
             app:layout_constraintTop_toBottomOf="@id/ll1"

@@ -45,7 +45,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_namaPaket"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
@@ -58,8 +58,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_namaPaket"
-            android:layout_width="271dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Nama Paket Laundry"
             android:inputType="text"
             android:background="@drawable/rounded_edittext_background"/>
@@ -67,8 +67,8 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_deskripsiPaket"
-        android:layout_width="wrap_content"
+        android:id="@+id/til_harga"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
@@ -80,7 +80,30 @@
         app:layout_constraintTop_toBottomOf="@id/til_namaPaket">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="271dp"
+            android:id="@+id/edt_harga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Harga/KG"
+            android:inputType="text"
+            android:background="@drawable/rounded_edittext_background"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_deskripsiPaket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/grey_text"
+        app:cursorColor="@color/black"
+        app:hintTextColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_harga">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
             android:layout_height="139dp"
             android:hint="Deskripsi Paket"
             android:inputType="text"
@@ -91,11 +114,10 @@
 
     <Button
         android:id="@+id/btn_buatPaket"
-        android:layout_width="293dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="50dp"
         android:backgroundTint="@color/button"
         android:text="Buat Paket"
         app:layout_constraintTop_toBottomOf="@id/til_deskripsiPaket"

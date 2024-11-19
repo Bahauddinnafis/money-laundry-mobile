@@ -1,4 +1,8 @@
 package com.nafis.moneylaundry.models
 
-class LoginRequest {
-}
+import android.hardware.biometrics.BiometricManager.Strings
+
+data class LoginRequest(
+    val email: String,
+    val password: String
+)

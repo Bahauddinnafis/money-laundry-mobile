@@ -71,7 +71,7 @@
                 android:id="@+id/iv_history"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_add_circle"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@id/tv_riwayat_order"
                 app:layout_constraintTop_toTopOf="parent"
@@ -85,12 +85,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_paketLaundry"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="28dp"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/card_add_paket"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

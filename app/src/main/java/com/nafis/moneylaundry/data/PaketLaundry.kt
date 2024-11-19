@@ -29,5 +29,13 @@ object PaketLaundry {
             "Paket Anti Bakteri",
             R.drawable.paket_cuci_lengkap
         ),
+        PaketLaundryModel(
+            "Paket Cuci Lipat",
+            R.drawable.paket_cuci_pewangi
+        ),
+        PaketLaundryModel(
+            "Paket Cuci Lipat",
+            R.drawable.paket_cuci_pewangi
+        ),
     )
 }

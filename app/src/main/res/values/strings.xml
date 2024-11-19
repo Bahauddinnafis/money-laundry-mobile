@@ -11,4 +11,6 @@
     <string name="nomor_telpon">Nomor Telpon</string>
     <string name="nama_toko">Nama Toko</string>
     <string name="alamat">Alamat</string>
+    <string name="back_button">Back</string>
+    <string name="konfirmasi_password">Konfirmasi Password</string>
 </resources>

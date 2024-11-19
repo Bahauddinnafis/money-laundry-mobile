@@ -32,84 +32,105 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- LinearLayout containing filter buttons -->
-    <LinearLayout
-        android:id="@+id/filter_buttons_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/tv_daftarTransaksi"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:weightSum="4">
-
-        <!-- All Transactions Filter Button (Selected by default) -->
-        <Button
-            android:id="@+id/btn_all_transactions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Semua transaksi"
-            android:textColor="@color/white"
-            android:background="@drawable/button_selected_background"
-            android:textSize="14sp"
-            android:padding="8dp" />
-
-        <!-- Completed Transactions Filter Button -->
-        <Button
-            android:id="@+id/btn_completed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Selesai"
-            android:textColor="@color/white"
-            android:background="@drawable/button_unselected_background"
-            android:textSize="14sp"
-            android:padding="8dp" />
-
-        <!-- In Progress Transactions Filter Button -->
-        <Button
-            android:id="@+id/btn_in_progress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Proses"
-            android:textColor="@color/white"
-            android:background="@drawable/button_unselected_background"
-            android:textSize="14sp"
-            android:padding="8dp" />
-
-        <!-- Canceled Transactions Filter Button -->
-        <Button
-            android:id="@+id/btn_canceled"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Batal"
-            android:textColor="@color/white"
-            android:background="@drawable/button_unselected_background"
-            android:textSize="14sp"
-            android:padding="8dp" />
-    </LinearLayout>
-
-    <!-- Additional Filter Button -->
-    <Button
-        android:id="@+id/btn_filter_lanjutan"
-        android:layout_width="0dp"
+<!--  Chip Group Filter  -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:text="Filter Lanjutan"
-        android:textColor="@color/white"
-        android:drawableStart="@drawable/ic_filter"
-        android:background="@drawable/button_advanced_filter_background"
-        app:layout_constraintTop_toBottomOf="@id/filter_buttons_layout"
+        android:layout_marginHorizontal="8dp"
+        app:singleSelection="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_daftarTransaksi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSemua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semua Transaksi"
+            style="@style/CustomChipStyle"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSelesai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesai"
+            style="@style/CustomChipStyle"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipProses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Proses"
+            style="@style/CustomChipStyle"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBatal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Batal"
+            style="@style/CustomChipStyle"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_filterLanjutan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintTop_toBottomOf="@id/chipGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+<!--    Card Content    -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/chipGroup">
+
+            <ImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_filter"
+                android:layout_marginStart="120dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_filterLanjutan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filter Lanjutan"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:textColor="@color/button"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_filter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+<!--  Recycler View  -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_daftarTransaksi"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/card_filterLanjutan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

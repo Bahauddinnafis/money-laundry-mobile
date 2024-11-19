@@ -15,6 +15,12 @@
         android:theme="@style/Theme.MoneyLaundry"
         tools:targetApi="31">
         <activity
+            android:name=".transaction.OrderStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".transaction.NewTransactionActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />
         <activity
