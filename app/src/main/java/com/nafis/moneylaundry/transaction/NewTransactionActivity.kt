@@ -2,11 +2,13 @@ package com.nafis.moneylaundry.transaction
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.nafis.moneylaundry.databinding.ActivityNewTransactionBinding
+import com.nafis.moneylaundry.sheet.AddOnsBottomSheetFragment
 import com.nafis.moneylaundry.models.PaketLaundryModel
 
 class NewTransactionActivity : AppCompatActivity() {
@@ -29,6 +31,14 @@ class NewTransactionActivity : AppCompatActivity() {
 
         }
 
+        binding.tilAddOns.setOnClickListener {
+            showAddonsBottomSheet()
+        }
+
+        binding.edtAddOns.setOnClickListener {
+            showAddonsBottomSheet()
+        }
+
         binding.edtOrderDate.setOnClickListener {
             showDatePickerDialog(binding.edtOrderDate)
         }
@@ -36,8 +46,18 @@ class NewTransactionActivity : AppCompatActivity() {
             showDatePickerDialog(binding.edtPickUpDate)
         }
         binding.ivBackButton.setOnClickListener {
-            onBackPressed()
+            finish()
         }
+        binding.btnBuatPaket.setOnClickListener {
+            val intent = Intent(this, OrderDetailActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun showAddonsBottomSheet() {
+        val bottomSheetFragment = AddOnsBottomSheetFragment()
+        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
     }
 
     @SuppressLint("DefaultLocale")
@@ -50,7 +70,6 @@ class NewTransactionActivity : AppCompatActivity() {
         val datePickerDialog = DatePickerDialog(
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Format tanggal ke dd/MM/yyyy
                 val date = String.format("%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear)
                 editText.setText(date)
             },

@@ -9,24 +9,27 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AuthRepository {
-
-    fun loginUser(email: String, password: String, callback: (LoginResponse?) -> Unit) {
+    fun loginUser(email: String, password: String, callback: (Result<LoginResponse>) -> Unit) {
         val loginRequest = mapOf("email" to email, "password" to password)
 
         ApiClient.instance.loginUser(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.d("LoginResponse", "Response: ${response.body()}")
-                    callback(response.body())
+                    // Jika berhasil, kirimkan hasil sukses melalui Result
+                    callback(Result.success(response.body()!!))
                 } else {
-                    Log.e("LoginError", "Error: ${response.errorBody()?.string()}")
-                    callback(null)
+                    val errorMessage = response.errorBody()?.string()
+                    Log.e("LoginError", "Error: $errorMessage")
+                    // Kirim error yang lebih spesifik
+                    callback(Result.failure(Exception("Login gagal: ${response.code()} - $errorMessage")))
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("LoginFailure", "Request failed", t)
-                callback(null)
+                // Kirim error koneksi
+                callback(Result.failure(Exception("Koneksi gagal: ${t.localizedMessage}")))
             }
         })
     }

@@ -46,46 +46,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_name" />
 
-        <!--Search-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_search"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_marginStart="19dp"
-            android:layout_marginEnd="19dp"
-            android:textColorHint="@color/grey_text"
-            app:hintTextColor="@color/black"
-            app:cursorColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/circleImageView">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:hint="Cari Paket"
-                android:inputType="text"
-                android:background="@drawable/rounded_edittext_black"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
 <!--    Card 1    -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
             app:cardBackgroundColor="@color/white"
             app:cardElevation="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_search"
+            app:layout_constraintTop_toBottomOf="@id/circleImageView"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp">
 
@@ -129,11 +100,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             app:cardBackgroundColor="@color/white"
             app:cardElevation="10dp"
             app:layout_constraintStart_toEndOf="@id/card_date"
-            app:layout_constraintTop_toBottomOf="@id/til_search"
+            app:layout_constraintTop_toBottomOf="@id/circleImageView"
             app:strokeColor="@color/black"
             app:strokeWidth="2dp">
 
@@ -339,10 +310,5 @@
             app:layout_constraintTop_toBottomOf="@id/cst_text"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/fragment_container"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
 
 </FrameLayout>

@@ -22,7 +22,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/paket_cuci_lipat"
+            android:src="@drawable/gambar1"
             android:contentDescription="Laundry Icon"
             android:layout_marginEnd="8dp" />
 

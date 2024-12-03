@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.databinding.ActivityRegisterBinding
 import com.nafis.moneylaundry.models.RegisterRequest
@@ -41,42 +42,47 @@ class RegisterActivity : AppCompatActivity() {
             val registerRequestMap = registerRequest.toMap()
 
             // Memanggil API untuk registrasi
-            apiService.registerUser(registerRequestMap).enqueue(object : Callback<RegisterResponse> {
+            apiService.registerUser (registerRequestMap).enqueue(object : Callback<RegisterResponse> {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                     if (response.isSuccessful) {
                         val registerResponse = response.body()
-                        // Memperbaiki pengecekan status
-                        if (registerResponse?.status == "true") {  // Jika status adalah String "true"
-                            Log.d("RegisterActivity", "Registration successful: ${registerResponse.message}")
-                            Toast.makeText(this@RegisterActivity, registerResponse.message, Toast.LENGTH_SHORT).show()
+                        if (registerResponse?.status == true) {
+                            registerResponse.data?.let { data ->
+                                Log.d("RegisterActivity", "Store Name: ${data.store_name}") // Akses store_name
+                                Log.d("RegisterActivity", "Store Address: ${data.store_address}") // Akses store_address
 
-                            val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-                            val editor = sharedPreferences.edit()
-                            editor.putString("storeName", registerResponse.data?.store_name)
-                            editor.putString("storeAddress", registerResponse.data?.store_address)
-                            editor.apply()
-                            // Debugging
-                            Log.d("RegisterActivity", "Saved Store Name: ${registerResponse.data?.store_name}")
-                            Log.d("RegisterActivity", "Saved Store Address: ${registerResponse.data?.store_address}")
+                                val sharedPreferencesHelper = SharedPreferencesHelper(application)
 
+                                sharedPreferencesHelper.saveUserId(data.users_id)
+                                sharedPreferencesHelper.saveAccountStatus(data.account_status_id)
+                                sharedPreferencesHelper.saveStoreName(data.store_name)
+                                sharedPreferencesHelper.saveStoreAddress(data.store_address)
+                                sharedPreferencesHelper.saveUsername(data.name)
+                                sharedPreferencesHelper.saveEmail(data.email)
+                                sharedPreferencesHelper.savePhoneNumber(data.phone_number)
 
-                            // Navigasi ke LoginActivity setelah berhasil registrasi
-                            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                                // Log untuk memastikan data disimpan
+                                Log.d("RegisterActivity", "Data stored in SharedPreferences successfully.")
+
+                                Toast.makeText(this@RegisterActivity, "Registration successful", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
                         } else {
                             Log.e("RegisterActivity", "Registration failed: ${registerResponse?.message}")
+                            Log.e("RegisterActivity", "Response Body: ${response.errorBody()?.string()}")
                             Toast.makeText(this@RegisterActivity, "Registration failed: ${registerResponse?.message}", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Log.e("RegisterActivity", "Registration failed: ${response.errorBody()?.string()}")
-                        Toast.makeText(this@RegisterActivity, "Registration failed", Toast.LENGTH_SHORT).show()
+                        Log.e("RegisterActivity", "Registration failed with status code: ${response.code()}")
+                        Log.e("RegisterActivity", "Response Body: ${response.errorBody()?.string()}")
+                        Toast.makeText(this@RegisterActivity, "Registration failed: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     Log.e("RegisterActivity", "Error: ${t.message}")
-                    Toast.makeText(this@RegisterActivity, "An error occurred", Toast.LENGTH_SHORT).show()
                 }
             })
         }

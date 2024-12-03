@@ -50,6 +50,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         android:textColorHint="@color/grey_text"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         app:cursorColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,8 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nama Paket Laundry"
-            android:inputType="text"
-            android:background="@drawable/rounded_edittext_background"/>
+            android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,6 +73,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         android:textColorHint="@color/grey_text"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         app:cursorColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Harga/KG"
-            android:inputType="text"
-            android:background="@drawable/rounded_edittext_background"/>
+            android:inputType="text"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,6 +96,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
         android:textColorHint="@color/grey_text"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         app:cursorColor="@color/black"
         app:hintTextColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,12 +104,12 @@
         app:layout_constraintTop_toBottomOf="@id/til_harga">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_deskripsiPaket"
             android:layout_width="match_parent"
             android:layout_height="139dp"
             android:hint="Deskripsi Paket"
             android:inputType="text"
-            android:maxLines="4"
-            android:background="@drawable/rounded_edittext_background"/>
+            android:maxLines="4"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,20 +124,5 @@
         app:layout_constraintTop_toBottomOf="@id/til_deskripsiPaket"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-
-<!--Opsi Circle Image-->
-
-<!--    <com.mikhaellopez.circularimageview.CircularImageView-->
-<!--        android:layout_width="120dp"-->
-<!--        android:layout_height="120dp"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:src="@drawable/paket_cuci_lipat_3"-->
-<!--        android:scaleType="centerInside"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/tv_buat_paket"-->
-<!--        app:civ_border_width="3dp"-->
-<!--        app:civ_border_color="@color/black"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

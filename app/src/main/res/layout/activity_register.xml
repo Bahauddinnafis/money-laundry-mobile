@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username"
-                android:inputType="textPersonName"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="textPersonName"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,6 +53,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +64,9 @@
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,6 +78,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,8 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:inputType="textPassword"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,6 +103,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/konfirmasi_password"
-                android:inputType="textPassword"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="textPassword"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,6 +128,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,8 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/nomor_telpon"
-                android:inputType="text|phone"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="text|phone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -151,6 +152,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -162,8 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/nama_toko"
-                android:inputType="text"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,6 +176,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
             android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:cursorColor="@color/black"
             app:hintTextColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -186,8 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/alamat"
-                android:inputType="text"
-                android:background="@drawable/rounded_edittext_background"/>
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
