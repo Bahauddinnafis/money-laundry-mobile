@@ -6,7 +6,7 @@
     <FrameLayout
         android:id="@+id/bottom_sheet_container"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:background="@drawable/rounded_bottom_sheet">
 
@@ -19,23 +19,25 @@
             android:layout_gravity="center|top"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_new_addons"
+            android:id="@+id/til_nama_addons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="50dp"
             android:textColorHint="@color/grey_text"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/black"
+            app:hintTextColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/iv_baseline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_new_addons"
+                android:id="@+id/edt_nama_addons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Addons"/>
+                android:hint="Nama Item"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,8 +48,8 @@
             android:layout_marginTop="130dp"
             android:textColorHint="@color/grey_text"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/til_new_addons"
+            app:hintTextColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/til_nama_addons"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -55,8 +57,41 @@
                 android:id="@+id/edt_harga_addons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Harga/KG"/>
+                android:hint="Harga/Item"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_jumlah_addons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="210dp"
+            android:textColorHint="@color/grey_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            app:hintTextColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/til_harga_addons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_jumlah_addons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Jumlah Item"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_detail_addons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="290dp"
+            android:layout_marginHorizontal="8dp"
+            android:padding="10dp"/>
 
         <LinearLayout
             android:id="@+id/button_container"
@@ -64,7 +99,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="370dp"
             android:gravity="center"
             android:layout_gravity="top">
 
@@ -73,18 +108,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/grey_text"
+                android:backgroundTint="@color/black"
                 android:text="Simpan"
-                android:textColor="@color/black" />
+                android:textColor="@color/white"
+                android:layout_marginEnd="8dp" />
 
             <Button
                 android:id="@+id/btn_batalkan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/grey_text"
+                android:backgroundTint="@color/black"
                 android:text="Batalkan"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
@@ -93,9 +129,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="320dp"
+            android:layout_marginTop="430dp"
             android:backgroundTint="@color/black"
-            android:text="Selesai" />
+            android:text="Selesai"
+            android:textColor="@color/white"/>
 
     </FrameLayout>
 

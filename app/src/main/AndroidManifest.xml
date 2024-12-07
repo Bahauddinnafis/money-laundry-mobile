@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,15 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MoneyLaundry"
-        tools:targetApi="31">
+        tools:targetApi="tiramisu">
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".transaction.EditPaketActivity"
-            android:exported="false" />
-        <activity
-            android:name=".transaction.OrderDetailActivity"
             android:exported="false" />
         <activity
             android:name=".transaction.OrderStatusActivity"
@@ -34,9 +32,6 @@
             android:exported="false" />
         <activity
             android:name=".transaction.AddPaketActivity"
-            android:exported="false" />
-        <activity
-            android:name=".transaction.PaketLaundryActivity"
             android:exported="false" />
         <activity
             android:name=".auth.ResetPasswordActivity"

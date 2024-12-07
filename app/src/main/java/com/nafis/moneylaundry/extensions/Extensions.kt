@@ -1,11 +1,11 @@
 package com.nafis.moneylaundry.extensions
 
 import android.content.Context
-import com.nafis.moneylaundry.models.CreatePackageRequest
-import com.nafis.moneylaundry.models.Data
-import com.nafis.moneylaundry.models.DataItem
-import com.nafis.moneylaundry.models.DataPackage
-import com.nafis.moneylaundry.models.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.CreatePackageRequest
+import com.nafis.moneylaundry.models.packageLaundry.Data
+import com.nafis.moneylaundry.models.packageLaundry.DataItem
+import com.nafis.moneylaundry.models.packageLaundry.DataPackage
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 
 
 fun DataItem?.toPaketLaundryModel(): PaketLaundryModel? {

@@ -1,13 +1,16 @@
 package com.nafis.moneylaundry.api
 
 import retrofit2.Call
-import com.nafis.moneylaundry.models.LoginResponse
-import com.nafis.moneylaundry.models.PaketLaundryModel
-import com.nafis.moneylaundry.models.RegisterResponse
-import com.nafis.moneylaundry.models.ResponseCreatePackage
-import com.nafis.moneylaundry.models.ResponseDeletePackage
-import com.nafis.moneylaundry.models.ResponseGetPackage
-import com.nafis.moneylaundry.models.ResponseUpdatePackage
+import com.nafis.moneylaundry.models.auth.LoginResponse
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.auth.RegisterResponse
+import com.nafis.moneylaundry.models.packageLaundry.ResponseCreatePackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseDeletePackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseUpdatePackage
+import com.nafis.moneylaundry.models.transactions.CreateOrderRequest
+import com.nafis.moneylaundry.models.transactions.ResponseCreateOrder
+import com.nafis.moneylaundry.models.transactions.ResponseGetOrder
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -60,4 +63,16 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("packageLaundryId") packageLaundryId: Int
     ): Call<ResponseDeletePackage>
+
+    @POST("user/transaction-order")
+    fun createOrder(
+        @Header("Authorization") token: String,
+        @Body createOrderRequest: CreateOrderRequest
+    ): Call<ResponseCreateOrder>
+
+    @GET("user/transaction-order/{userId}")
+    fun gerAllOrder(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ): Call<ResponseGetOrder>
 }

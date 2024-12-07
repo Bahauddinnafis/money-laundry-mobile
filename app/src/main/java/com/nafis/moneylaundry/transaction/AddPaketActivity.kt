@@ -1,26 +1,18 @@
 package com.nafis.moneylaundry.transaction
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.api.ApiService
 import com.nafis.moneylaundry.data.SelectImage
 import com.nafis.moneylaundry.databinding.ActivityAddPaketBinding
 import com.nafis.moneylaundry.extensions.toPaketLaundryModel
-import com.nafis.moneylaundry.models.PaketLaundryModel
-import com.nafis.moneylaundry.models.ResponseCreatePackage
-import com.nafis.moneylaundry.models.ResponseUpdatePackage
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.ResponseCreatePackage
 import com.nafis.moneylaundry.repository.LaundryRepository
 import com.nafis.moneylaundry.sheet.SelectImageBottomSheet
 import com.nafis.moneylaundry.viewmodel.UserViewModel
@@ -40,14 +32,13 @@ class AddPaketActivity : AppCompatActivity() {
         binding = ActivityAddPaketBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inisialisasi ViewModel dan ApiService
         val repository = LaundryRepository(ApiClient, application)
         val factory = UserViewModelFactory(application, repository)
-        userViewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
         apiService = ApiClient.instance
 
-        // Setup onClickListeners
         binding.ivBackButton.setOnClickListener {
+            @Suppress("DEPRECATION")
             onBackPressed()
         }
 
@@ -60,12 +51,9 @@ class AddPaketActivity : AppCompatActivity() {
         }
     }
 
-    // Fungsi untuk menampilkan bottom sheet pemilihan gambar
     private fun showSelectImageBottomSheet() {
         val bottomSheet = SelectImageBottomSheet { selectedImageName ->
-            // Menyimpan nama gambar yang dipilih
             selectedImage = selectedImageName
-            // Menampilkan gambar di ImageView menggunakan resource ID
             val selectedImageResId = SelectImage.allImage.find { it.imageName == selectedImageName }?.photo
             selectedImageResId?.let { binding.circleImageView.setImageResource(it) }
         }
@@ -87,7 +75,7 @@ class AddPaketActivity : AppCompatActivity() {
 
         val paketLaundry = PaketLaundryModel(
             name = name,
-            price_per_kg = pricePerKg ?: 0,
+            price_per_kg = pricePerKg,
             description = description,
             logo = selectedImage ?: ""
         )
@@ -113,18 +101,21 @@ class AddPaketActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val newPaketLaundry = response.body()?.data
                     if (newPaketLaundry != null) {
-                        // Simpan paket laundry ke ViewModel
                         userViewModel.addPaketLaundry(newPaketLaundry.toPaketLaundryModel()!!)
 
-                        // Simpan ID paket laundry
                         val packageLaundryId = newPaketLaundry.packageLaundryId ?: -1
                         userViewModel.savePackageLaundryId(packageLaundryId)
 
-                        // Ambil dan log package_laundry_id
+                        val sharedPreferencesHelper = SharedPreferencesHelper(this@AddPaketActivity)
+                        sharedPreferencesHelper.savePackageName(newPaketLaundry.name ?: "Default Package Name")
+                        sharedPreferencesHelper.savePackageDescription(newPaketLaundry.description ?: "Default Description")
+                        sharedPreferencesHelper.savePricePerKg(newPaketLaundry.pricePerKg ?: 0)
+                        sharedPreferencesHelper.saveLogoUrl(selectedImage ?: "")
+                        Log.d("AddPaketActivity", "Saved logo URL: ${selectedImage ?: "No image selected"}")
+
                         val retrievedId = userViewModel.getPackageLaundryId()
                         Log.d("AddPaketActivity", "Saved package_laundry_id: $retrievedId")
 
-                        // Fetch paket laundry untuk memperbarui daftar
                         userViewModel.fetchPaketLaundry()
                     }
                     Toast.makeText(this@AddPaketActivity, "Paket berhasil dibuat", Toast.LENGTH_SHORT).show()

@@ -15,10 +15,10 @@ import com.bumptech.glide.Glide
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.extensions.getImageResourceByName
 import com.nafis.moneylaundry.fragments.PaketLaundryFragment
-import com.nafis.moneylaundry.models.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 import com.nafis.moneylaundry.transaction.EditPaketActivity
 
-class PaketLaundryVerticalRecyclerview(
+class   PaketLaundryVerticalRecyclerview(
     private var listPaketLaundry: MutableList<PaketLaundryModel>,
     private val fragment: Fragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -1,7 +1,6 @@
 package com.nafis.moneylaundry.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +18,8 @@ import com.nafis.moneylaundry.adapter.PaketLaundryRecyclerview
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.auth.LoginActivity
 import com.nafis.moneylaundry.databinding.FragmentHomeBinding
-import com.nafis.moneylaundry.models.PaketLaundryModel
-import com.nafis.moneylaundry.models.ResponseGetPackage
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
 import com.nafis.moneylaundry.repository.LaundryRepository
 import com.nafis.moneylaundry.transaction.NewTransactionActivity
 import retrofit2.Call
@@ -111,9 +110,12 @@ class HomeFragment : Fragment() {
         recyclerview.layoutManager = layoutManager
 
         adapter = PaketLaundryRecyclerview(mutableListOf())
-
         adapter.setOnItemClickListener(object : PaketLaundryRecyclerview.OnItemClickListener {
             override fun onItemClick(paketLaundry: PaketLaundryModel) {
+                val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
+                sharedPreferencesHelper.savePricePerKg(paketLaundry.price_per_kg)
+
+                Log.e("PaketLaundryFragment", "Paket selected: $paketLaundry")
                 val intent = Intent(requireContext(), NewTransactionActivity::class.java)
                 intent.putExtra("paketLaundry", paketLaundry)
                 startActivity(intent)
@@ -126,31 +128,47 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchAndUpdateData() {
+        Log.d("HomeFragment", "fetchAndUpdateData() called")
+
         if (userId == 0) {
-            Toast.makeText(requireContext(), "User  ID tidak ditemukan.", Toast.LENGTH_SHORT).show()
+            Log.e("HomeFragment", "User ID tidak ditemukan.")
+            Toast.makeText(requireContext(), "User ID tidak ditemukan.", Toast.LENGTH_SHORT).show()
             return
         }
 
         val token = SharedPreferencesHelper(requireContext()).getToken()
         if (token.isNullOrEmpty()) {
+            Log.e("HomeFragment", "Token tidak valid")
             Toast.makeText(requireContext(), "Token tidak valid", Toast.LENGTH_SHORT).show()
-            return }
+            return
+        }
+
+        Log.d("HomeFragment", "Menggunakan token: $token untuk user ID: $userId")
 
         ApiClient.instance.getPackageLaundry("Bearer $token", userId).enqueue(object : Callback<ResponseGetPackage> {
             override fun onResponse(call: Call<ResponseGetPackage>, response: Response<ResponseGetPackage>) {
+                Log.d("HomeFragment", "onResponse called")
+                Log.d("HomeFragment", "Response code: ${response.code()}")
+
                 if (response.isSuccessful) {
+                    Log.d("HomeFragment", "Response sukses. Mengolah data...")
                     val paketList = response.body()?.data?.map {
+                        Log.d("HomeFragment", "Fetched package laundry ID: ${it?.packageLaundryId}")
                         PaketLaundryModel(
+                            package_laundry_id = it?.packageLaundryId ?: 0,
+                            users_id = it?.usersId ?: 0,
                             name = it?.name ?: "",
                             price_per_kg = it?.pricePerKg ?: 0,
                             description = it?.description ?: "",
                             logo = it?.logo ?: ""
                         )
                     } ?: emptyList()
+                    Log.d("HomeFragment", "Data paket laundry: $paketList")
                     adapter.updateData(paketList)
                 } else {
-                    Log.e("HomeFragment", "Error fetching data: ${response.errorBody()?.string()}")
-                    Toast.makeText(requireContext(), "Gagal memuat data.", Toast.LENGTH_SHORT).show()
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("HomeFragment", "Error fetching data: $errorBody")
+                    Toast.makeText(requireContext(), "Gagal memuat data. Error: $errorBody", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -160,12 +178,15 @@ class HomeFragment : Fragment() {
             }
         })
 
+        // Jika menggunakan repository
+        Log.d("HomeFragment", "Memulai fetchPaketLaundry melalui repository")
         val laundryRepository = LaundryRepository(ApiClient, requireActivity().application)
         laundryRepository.fetchPaketLaundry(userId, "Bearer $token") { result ->
             result.onSuccess { paketList ->
+                Log.d("HomeFragment", "Berhasil memuat data melalui repository: $paketList")
                 adapter.updateData(paketList)
             }.onFailure { exception ->
-                Log.e("HomeFragment", "Error fetching data: ${exception.message}")
+                Log.e("HomeFragment", "Error fetching data melalui repository: ${exception.message}")
                 Toast.makeText(requireContext(), "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
         }

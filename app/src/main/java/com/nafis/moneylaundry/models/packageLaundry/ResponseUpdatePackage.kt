@@ -1,23 +1,23 @@
-package com.nafis.moneylaundry.models
+package com.nafis.moneylaundry.models.packageLaundry
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseGetPackage(
+data class ResponseUpdatePackage(
 
-	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+    @field:SerializedName("data")
+	val data: Data? = null,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String? = null,
 
-	@field:SerializedName("status")
+    @field:SerializedName("status")
 	val status: Boolean? = null,
 
-	@field:SerializedName("statusCode")
+    @field:SerializedName("statusCode")
 	val statusCode: Int? = null
 )
 
-data class DataItem(
+data class Data(
 
 	@field:SerializedName("price_per_kg")
 	val pricePerKg: Int? = null,

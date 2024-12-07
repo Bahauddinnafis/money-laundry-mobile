@@ -16,8 +16,8 @@ import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.adapter.PaketLaundryVerticalRecyclerview
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.databinding.FragmentPaketLaundryBinding
-import com.nafis.moneylaundry.models.PaketLaundryModel
-import com.nafis.moneylaundry.models.ResponseGetPackage
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
 import com.nafis.moneylaundry.repository.LaundryRepository
 import com.nafis.moneylaundry.transaction.AddPaketActivity
 import com.nafis.moneylaundry.transaction.NewTransactionActivity
@@ -27,6 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class PaketLaundryFragment : Fragment() {
     private var _binding: FragmentPaketLaundryBinding? = null
     private val binding get() = _binding!!
@@ -49,20 +50,24 @@ class PaketLaundryFragment : Fragment() {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val laundryRepository = LaundryRepository(ApiClient, requireActivity().application)
         val factory = UserViewModelFactory(requireActivity().application, laundryRepository)
 
-        userViewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
 
-        // Setup RecyclerView
         binding.rvPaketLaundry.layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = PaketLaundryVerticalRecyclerview(mutableListOf(), this)
         binding.rvPaketLaundry.adapter = adapter
         adapter.setOnItemClickListener(object : PaketLaundryVerticalRecyclerview.OnItemClickListener {
             override fun onItemClick(paketLaundry: PaketLaundryModel) {
+                val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
+                sharedPreferencesHelper.savePricePerKg(paketLaundry.price_per_kg)
+
+                Log.e("PaketLaundryFragment", "Paket selected: $paketLaundry")
                 val intent = Intent(requireContext(), NewTransactionActivity::class.java)
                 intent.putExtra("paketLaundry", paketLaundry)
                 startActivity(intent)
@@ -82,7 +87,6 @@ class PaketLaundryFragment : Fragment() {
             adapter.updateData(updatedList)
         }
 
-        // Fetch data
         val userId = userViewModel.getUserId()
         if (userId != 0) {
             Log.e("PaketLaundryFragment", "User ID: $userId")

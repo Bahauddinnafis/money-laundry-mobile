@@ -1,8 +1,8 @@
 package com.nafis.moneylaundry.adapter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.extensions.getImageResourceByName
-import com.nafis.moneylaundry.models.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 
 class PaketLaundryRecyclerview(
     private var listPaketLaundry: MutableList<PaketLaundryModel>
@@ -27,6 +27,7 @@ class PaketLaundryRecyclerview(
         this.listener = listener
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: List<PaketLaundryModel>) {
         listPaketLaundry.clear()
         listPaketLaundry.addAll(newData)

@@ -4,12 +4,11 @@ import android.content.Context
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.extensions.toPaketLaundryModel
-import com.nafis.moneylaundry.models.Data
-import com.nafis.moneylaundry.models.PaketLaundryModel
-import com.nafis.moneylaundry.models.ResponseCreatePackage
-import com.nafis.moneylaundry.models.ResponseDeletePackage
-import com.nafis.moneylaundry.models.ResponseGetPackage
-import com.nafis.moneylaundry.models.ResponseUpdatePackage
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.packageLaundry.ResponseCreatePackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseDeletePackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
+import com.nafis.moneylaundry.models.packageLaundry.ResponseUpdatePackage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

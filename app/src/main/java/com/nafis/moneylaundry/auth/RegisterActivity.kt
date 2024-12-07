@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.databinding.ActivityRegisterBinding
-import com.nafis.moneylaundry.models.RegisterRequest
-import com.nafis.moneylaundry.models.RegisterResponse
+import com.nafis.moneylaundry.models.auth.RegisterRequest
+import com.nafis.moneylaundry.models.auth.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

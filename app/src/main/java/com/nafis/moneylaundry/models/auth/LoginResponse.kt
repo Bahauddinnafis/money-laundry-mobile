@@ -1,4 +1,4 @@
-package com.nafis.moneylaundry.models
+package com.nafis.moneylaundry.models.auth
 
 import com.google.gson.annotations.SerializedName
 

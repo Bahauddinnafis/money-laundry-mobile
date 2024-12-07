@@ -1,4 +1,4 @@
-package com.nafis.moneylaundry.models
+package com.nafis.moneylaundry.models.packageLaundry
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

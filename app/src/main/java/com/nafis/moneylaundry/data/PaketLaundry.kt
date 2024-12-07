@@ -1,8 +1,5 @@
 package com.nafis.moneylaundry.data
 
-import com.nafis.moneylaundry.R
-import com.nafis.moneylaundry.models.PaketLaundryModel
-
 //object PaketLaundry {
 //    val allCategory = listOf(
 //        PaketLaundryModel(

@@ -9,7 +9,7 @@
 
     <!-- State when unchecked -->
     <item>
-        <shape android:shape="oval">
+        <shape android:shape="line">
             <solid android:color="@android:color/transparent" />
         </shape>
     </item>

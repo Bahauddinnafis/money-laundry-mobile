@@ -1,4 +1,4 @@
-package com.nafis.moneylaundry.models
+package com.nafis.moneylaundry.models.packageLaundry
 
 data class CreatePackageRequest(
     val users_id: Int,

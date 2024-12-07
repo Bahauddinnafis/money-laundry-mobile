@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.nafis.moneylaundry.SharedPreferencesHelper
-import com.nafis.moneylaundry.models.LoginResponse
-import com.nafis.moneylaundry.models.PaketLaundryModel
+import com.nafis.moneylaundry.models.auth.LoginResponse
+import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 import com.nafis.moneylaundry.repository.AuthRepository
 import com.nafis.moneylaundry.repository.LaundryRepository
 import kotlinx.coroutines.launch
