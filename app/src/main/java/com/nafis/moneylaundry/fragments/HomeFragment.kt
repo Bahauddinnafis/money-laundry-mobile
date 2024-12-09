@@ -1,5 +1,6 @@
 package com.nafis.moneylaundry.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -20,11 +21,16 @@ import com.nafis.moneylaundry.auth.LoginActivity
 import com.nafis.moneylaundry.databinding.FragmentHomeBinding
 import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
+import com.nafis.moneylaundry.models.transactions.ResponseDashboard
 import com.nafis.moneylaundry.repository.LaundryRepository
 import com.nafis.moneylaundry.transaction.NewTransactionActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class HomeFragment : Fragment() {
@@ -85,6 +91,8 @@ class HomeFragment : Fragment() {
             }
         }
 
+        updateDate()
+
         binding.circleImageView.setOnClickListener {
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             startActivity(intent)
@@ -93,6 +101,7 @@ class HomeFragment : Fragment() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             fetchAndUpdateData()
@@ -102,6 +111,19 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateDate() {
+        val calendar = Calendar.getInstance()
+
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = SimpleDateFormat("MMMM", Locale("id", "ID")).format(calendar.time) // Nama bulan dalam bahasa Indonesia
+        val year = calendar.get(Calendar.YEAR)
+
+        binding.tvDate.text = day.toString()
+        binding.tvMonth.text = month
+        binding.tvYear.text = year.toString()
     }
 
     private fun setupRecyclerView() {
@@ -127,6 +149,16 @@ class HomeFragment : Fragment() {
         fetchAndUpdateData()
     }
 
+    fun formatToRupiah(amount: String?): String {
+        return try {
+            val parsedAmount = amount?.toIntOrNull() ?: 0
+            val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+            format.format(parsedAmount).replace("Rp", "Rp ").replace(",00", "")
+        } catch (e: NumberFormatException) {
+            "Rp. 0"
+        }
+    }
+
     private fun fetchAndUpdateData() {
         Log.d("HomeFragment", "fetchAndUpdateData() called")
 
@@ -144,6 +176,28 @@ class HomeFragment : Fragment() {
         }
 
         Log.d("HomeFragment", "Menggunakan token: $token untuk user ID: $userId")
+
+        ApiClient.instance.getDashboardData("Bearer $token", userId).enqueue(object : Callback<ResponseDashboard> {
+            override fun onResponse(call: Call<ResponseDashboard>, response: Response<ResponseDashboard>) {
+                Log.d("HomeFragment", "Dashboard API Response code: ${response.code()}")
+                if (response.isSuccessful) {
+                    val dashboardData = response.body()?.data
+                    Log.d("HomeFragment", "Dashboard Data: $dashboardData")
+                    if (dashboardData != null) {
+                        binding.tvSaldo.text = formatToRupiah(dashboardData.totalTransactionPaid)
+                        binding.tvOrder.text = dashboardData.numberOfTransactions?.toString() ?: "0"
+                    }
+                } else {
+                    Log.e("HomeFragment", "Error fetching dashboard data: ${response.errorBody()?.string()}")
+                    Toast.makeText(requireContext(), "Gagal memuat data dashboard", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDashboard>, t: Throwable) {
+                Log.e("HomeFragment", "Error fetching dashboard data: ${t.message}")
+                Toast.makeText(requireContext(), "Error fetching dashboard data: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         ApiClient.instance.getPackageLaundry("Bearer $token", userId).enqueue(object : Callback<ResponseGetPackage> {
             override fun onResponse(call: Call<ResponseGetPackage>, response: Response<ResponseGetPackage>) {

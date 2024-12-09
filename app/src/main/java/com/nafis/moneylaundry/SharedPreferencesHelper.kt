@@ -5,6 +5,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.nafis.moneylaundry.data.AddonDetail
+import com.nafis.moneylaundry.models.transactions.ResponseCreateOrder
+import com.nafis.moneylaundry.models.transactions.ResponseTransactionOrder
 
 class SharedPreferencesHelper(context: Context) {
 
@@ -239,6 +241,16 @@ class SharedPreferencesHelper(context: Context) {
         val json = sharedPreferences.getString("addons", null)
         val type = object : TypeToken<List<AddonDetail>>() {}.type
         return gson.fromJson(json, type) ?: emptyList()
+    }
+
+    // Fungsi untuk menyimpan transaction_order_id
+    fun saveTransactionOrderId(transactionOrderId: Int) {
+        sharedPreferences.edit().putInt("transaction_order_id", transactionOrderId).apply()
+    }
+
+    // Fungsi untuk mengambil transaction_order_id
+    fun getTransactionOrderId(): Int {
+        return sharedPreferences.getInt("transaction_order_id", -1)
     }
 }
 

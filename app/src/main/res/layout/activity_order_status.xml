@@ -565,14 +565,12 @@
                 android:id="@+id/tv_total_transaksi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total Transaksi "
                 android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tv_jumlah_transaksi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=": "
                 android:textSize="14sp"/>
 
             <TextView

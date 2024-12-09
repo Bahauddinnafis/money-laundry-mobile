@@ -10,7 +10,11 @@ import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
 import com.nafis.moneylaundry.models.packageLaundry.ResponseUpdatePackage
 import com.nafis.moneylaundry.models.transactions.CreateOrderRequest
 import com.nafis.moneylaundry.models.transactions.ResponseCreateOrder
+import com.nafis.moneylaundry.models.transactions.ResponseDashboard
 import com.nafis.moneylaundry.models.transactions.ResponseGetOrder
+import com.nafis.moneylaundry.models.transactions.ResponseSendInvoice
+import com.nafis.moneylaundry.models.transactions.ResponseTransactionOrder
+import com.nafis.moneylaundry.models.transactions.ResponseUpdatePayment
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -75,4 +79,29 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
     ): Call<ResponseGetOrder>
+
+    @GET("user/transaction-order-detail/{transactionOrderId}")
+    fun getTransactionOrder(
+        @Header("Authorization") token: String,
+        @Path("transactionOrderId") transactionOrderId: Int
+    ): Call<ResponseTransactionOrder>
+
+    @PUT("user/update-payment/{transactionOrderId}")
+    fun updatePayment(
+        @Header("Authorization") token: String,
+        @Path("transactionOrderId") transactionOrderId: Int,
+        @Body requestBody: Map<String, String>
+    ): Call<ResponseUpdatePayment>
+
+    @POST("user/send-invoice-wa")
+    fun sendInvoiceWA(
+        @Header("Authorization") token: String,
+        @Body requestBody: Map<String, Int>
+    ): Call<ResponseSendInvoice>
+
+    @GET("user/dashboard/{userId}")
+    fun getDashboardData(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ): Call<ResponseDashboard>
 }

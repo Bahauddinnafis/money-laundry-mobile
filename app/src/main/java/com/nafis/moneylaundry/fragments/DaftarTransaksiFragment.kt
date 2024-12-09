@@ -1,6 +1,7 @@
 package com.nafis.moneylaundry.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +16,9 @@ import com.nafis.moneylaundry.adapter.DaftarTransaksiRecyclerview
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.databinding.FragmentDaftarTransaksiBinding
 import com.nafis.moneylaundry.models.transactions.ResponseGetOrder
+import com.nafis.moneylaundry.models.transactions.ResponseTransactionOrder
 import com.nafis.moneylaundry.models.transactions.TransactionOrderItem
+import com.nafis.moneylaundry.transaction.OrderStatusActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +45,7 @@ class DaftarTransaksiFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView()
-        fetchTransaksiData()
+        fetchTransactionData()
 
         binding.ivBackButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -58,11 +61,35 @@ class DaftarTransaksiFragment : Fragment() {
         recyclerView = binding.rvDaftarTransaksi
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
-        adapter = DaftarTransaksiRecyclerview(transaksiList)
+        adapter = DaftarTransaksiRecyclerview(transaksiList) { transactionOrderId ->
+            fetchTransactionOrderDetail(transactionOrderId)
+        }
         recyclerView.adapter = adapter
     }
 
-    private fun fetchTransaksiData() {
+    private fun fetchTransactionOrderDetail(transactionOrderId: Int) {
+        val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
+        val token = "Bearer ${sharedPreferencesHelper.getToken()}"
+
+        ApiClient.instance.getTransactionOrder(token, transactionOrderId).enqueue(object : Callback<ResponseTransactionOrder> {
+            override fun onResponse(call: Call<ResponseTransactionOrder>, response: Response<ResponseTransactionOrder>) {
+                if (response.isSuccessful) {
+                    val intent = Intent(requireContext(), OrderStatusActivity::class.java)
+                    intent.putExtra("transactionOrderId", transactionOrderId)
+                    startActivity(intent)
+                } else {
+                    Log.e("FetchTransactionError", "Error: ${response.errorBody()?.string()}")
+                    Toast.makeText(requireContext(), "Gagal mengambil detail transaksi", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseTransactionOrder>, t: Throwable) {
+                Toast.makeText(requireContext(), "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchTransactionData() {
         val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
         val userId = sharedPreferencesHelper.getUserId()
         val token = "Bearer ${sharedPreferencesHelper.getToken()}"

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.extensions.getImageResourceByName
 import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
@@ -45,25 +46,22 @@ class PaketLaundryRecyclerview(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentPaketLaundry = listPaketLaundry[position]
 
-        // Bind data to the views
         holder.itemView.findViewById<TextView>(R.id.tv_paketLaundry).text = currentPaketLaundry.name
 
-        // Memuat gambar menggunakan Glide dengan pemetaan logo ke resource drawable
-        val imageView = holder.itemView.findViewById<ImageView>(R.id.iv_paketLaundry) // ID sesuai layout XML
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.iv_paketLaundry)
         val context = holder.itemView.context
 
-        // Pemetaan logo ke resource drawable
         val imageResource = getImageResourceByName(context, currentPaketLaundry.logo)
         if (imageResource == 0) {
             Log.e("PaketLaundryAdapter", "Resource not found for logo: ${currentPaketLaundry.logo}")
         }
 
         Glide.with(context)
-            .load(imageResource) // Memuat resource drawable
-            .error(R.drawable.gambar1) // Gambar placeholder jika resource tidak ditemukan
+            .load(imageResource)
+            .error(R.drawable.gambar1)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(imageView)
 
-        // Set listener untuk item
         holder.itemView.setOnClickListener {
             listener?.onItemClick(currentPaketLaundry)
         }

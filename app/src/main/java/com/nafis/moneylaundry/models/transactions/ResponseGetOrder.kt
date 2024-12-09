@@ -125,7 +125,7 @@ data class TransactionOrderItem(
 	val totalPrice: Int? = null,
 
 	@field:SerializedName("package_laundry")
-	val packageLaundry: PackageLaundry? = null,
+	val packageLaundry: PackageLaundryTransaction? = null,
 
 	@field:SerializedName("payment_status")
 	val paymentStatus: String? = null,

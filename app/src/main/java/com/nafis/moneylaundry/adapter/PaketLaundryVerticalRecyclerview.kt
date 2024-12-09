@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.extensions.getImageResourceByName
 import com.nafis.moneylaundry.fragments.PaketLaundryFragment
@@ -109,6 +110,7 @@ class   PaketLaundryVerticalRecyclerview(
             Glide.with(context)
                 .load(imageResource)
                 .error(R.drawable.gambar1)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(imageView)
 
             holder.itemView.setOnClickListener {

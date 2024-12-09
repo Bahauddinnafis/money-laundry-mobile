@@ -380,10 +380,17 @@ class NewTransactionActivity : AppCompatActivity(), OnAddonsAddedListener, Addon
         ApiClient.instance.createOrder("Bearer $token", createOrderRequest).enqueue(object : Callback<ResponseCreateOrder> {
             override fun onResponse(call: Call<ResponseCreateOrder>, response: Response<ResponseCreateOrder>) {
                 if (response.isSuccessful) {
-                    response.body()
+                    val transactionOrderId = response.body()?.data?.transactionOrderId
+                    transactionOrderId?.let { id ->
+                        SharedPreferencesHelper(this@NewTransactionActivity)
+                        sharedPreferencesHelper.saveTransactionOrderId(id)
+                        Log.d("NewTransactionActivity", "Transaction Order ID saved: $id")
+                    }
                     val intent = Intent(this@NewTransactionActivity, OrderStatusActivity::class.java)
+                    intent.putExtra("transactionOrderId", transactionOrderId)
                     startActivity(intent)
                     finish()
+                    Log.d("NewTransactionActivity", "Transaction Order ID: $transactionOrderId")
                 } else {
                     Log.e("CreateOrderError", "Error: ${response.errorBody()?.string()}")
                     Toast.makeText(this@NewTransactionActivity, "Gagal mengirim data: ${response.message()}", Toast.LENGTH_SHORT).show()
