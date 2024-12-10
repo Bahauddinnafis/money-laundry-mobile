@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
+    implementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,4 +76,7 @@ dependencies {
     // Pin View
     implementation("io.github.chaosleung:pinview:1.4.4")
 
+    // Bar Chart
+    implementation("com.diogobernardino:williamchart:3.10.1")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

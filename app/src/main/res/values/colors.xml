@@ -7,6 +7,7 @@
     <color name="button">#032432</color>
     <color name="red">#FF0024</color>
     <color name="green_button">#00B923</color>
+    <color name="bar_color">#A6CEE3</color>
     
     // Color Premium Card
     <color name="black_card">#2C3729</color>

@@ -4,6 +4,7 @@ import retrofit2.Call
 import com.nafis.moneylaundry.models.auth.LoginResponse
 import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 import com.nafis.moneylaundry.models.auth.RegisterResponse
+import com.nafis.moneylaundry.models.money.ResponseMoney
 import com.nafis.moneylaundry.models.packageLaundry.ResponseCreatePackage
 import com.nafis.moneylaundry.models.packageLaundry.ResponseDeletePackage
 import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
@@ -104,4 +105,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
     ): Call<ResponseDashboard>
+
+    @GET("user/keuangan/{userId}")
+    fun getMoneyData(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ): Call<ResponseMoney>
 }
