@@ -108,17 +108,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     @SuppressLint("SetTextI18n")
     private fun updateDate() {
         val calendar = Calendar.getInstance()
 
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = SimpleDateFormat("MMMM", Locale("id", "ID")).format(calendar.time) // Nama bulan dalam bahasa Indonesia
+        val month = SimpleDateFormat("MMMM", Locale("id", "ID")).format(calendar.time)
         val year = calendar.get(Calendar.YEAR)
 
         binding.tvDate.text = day.toString()
@@ -232,7 +227,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-        // Jika menggunakan repository
         Log.d("HomeFragment", "Memulai fetchPaketLaundry melalui repository")
         val laundryRepository = LaundryRepository(ApiClient, requireActivity().application)
         laundryRepository.fetchPaketLaundry(userId, "Bearer $token") { result ->
@@ -245,4 +239,10 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

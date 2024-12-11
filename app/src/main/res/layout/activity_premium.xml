@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".transaction.PremiumActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_membership"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Membership"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--     Card Member Basic   -->
+       <LinearLayout
+           android:id="@+id/ll_card_member_bronze"
+           android:layout_width="match_parent"
+           android:layout_height="280dp"
+           android:layout_marginTop="24dp"
+           android:layout_marginHorizontal="16dp"
+           android:orientation="vertical"
+           android:background="@drawable/bronze_member_bg"
+           app:layout_constraintTop_toBottomOf="@id/tv_membership"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintEnd_toEndOf="parent">
+
+           <LinearLayout
+               android:id="@+id/ll_content_bronze"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="28dp"
+               android:gravity="center_horizontal"
+               android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/tv_member_status_bronze"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Basic Membership"
+                   android:textColor="@color/white"
+                   android:textSize="16sp"/>
+<!--          Premium Price      -->
+               <LinearLayout
+                   android:id="@+id/ll_IDR"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:gravity="center_horizontal">
+
+                   <TextView
+                       android:id="@+id/tv_IDR"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="IDR 0"
+                       android:textSize="20sp"
+                       android:textColor="@color/white"/>
+
+                   <TextView
+                       android:id="@+id/tv_bulan_bronze"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="/Bulan"
+                       android:textSize="12sp"
+                       android:textColor="@color/white"/>
+
+               </LinearLayout>
+
+               <View
+                   android:id="@+id/view_bronze"
+                   android:layout_width="match_parent"
+                   android:layout_height="2dp"
+                   android:layout_marginTop="12dp"
+                   android:layout_marginHorizontal="24dp"
+                   android:background="@color/white"/>
+
+               <TextView
+                   android:id="@+id/keuntungan_bronze"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="4dp"
+                   android:text="Keuntungan"
+                   android:textSize="12sp"
+                   android:textColor="@color/white"/>
+
+<!--           Content Star    -->
+               <TextView
+                   android:id="@+id/jml_paket_bronze"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="24dp"
+                   android:text="3 Paket Laundry"
+                   android:textSize="12sp"
+                   android:textColor="@color/white"
+                   android:gravity="center_vertical"
+                   android:drawablePadding="16dp"
+                   android:drawableStart="@drawable/ic_star"
+                   android:drawableTint="@color/white"
+                   tools:ignore="UseCompatTextViewDrawableXml" />
+
+<!--         Button      -->
+                <Button
+                    android:id="@+id/btn_bronze"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:backgroundTint="@color/btn_disable"
+                    android:text="Gabung Sekarang"
+                    android:textColor="@color/text_button"/>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+<!--     Card Member Silver   -->
+        <LinearLayout
+            android:id="@+id/ll_card_member_silver"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/silver_member_bg"
+            app:layout_constraintTop_toBottomOf="@id/ll_card_member_bronze"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ll_content_silver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_member_status_silver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silver Membership"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+                <!--          Premium Price      -->
+                <LinearLayout
+                    android:id="@+id/ll_IDR_silver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_IDR_silver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IDR 50.0000"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_bulan_silver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/Bulan"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_silver"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:id="@+id/keuntungan_silver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Keuntungan"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+                <!--           Content Star    -->
+                <TextView
+                    android:id="@+id/jml_paket_silver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Paket Laundry Custom"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="16dp"
+                    android:drawableStart="@drawable/ic_star"
+                    android:drawableTint="@color/white"
+                    tools:ignore="UseCompatTextViewDrawableXml" />
+
+                <!--         Button      -->
+                <Button
+                    android:id="@+id/btn_silver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Gabung Sekarang"
+                    android:textColor="@color/text_button"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--     Card Gold Member   -->
+        <LinearLayout
+            android:id="@+id/ll_card_member_gold"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/gold_member_bg"
+            app:layout_constraintTop_toBottomOf="@id/ll_card_member_silver"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ll_content_gold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_member_status_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gold Membership"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+                <!--          Premium Price      -->
+                <LinearLayout
+                    android:id="@+id/ll_IDR_gold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_IDR_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IDR 130.0000"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_bulan_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/Bulan"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_gold"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:background="@color/white"/>
+
+                <TextView
+                    android:id="@+id/keuntungan_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Keuntungan"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+                <!--           Content Star    -->
+                <TextView
+                    android:id="@+id/jml_paket_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Paket Laundry Custom"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="16dp"
+                    android:drawableStart="@drawable/ic_star"
+                    android:drawableTint="@color/white"
+                    tools:ignore="UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    android:id="@+id/tv_diskon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:text="Diskon 20%"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="16dp"
+                    android:drawableStart="@drawable/ic_star"
+                    android:drawableTint="@color/white"
+                    tools:ignore="UseCompatTextViewDrawableXml" />
+
+                <!--         Button      -->
+                <Button
+                    android:id="@+id/btn_gold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Gabung Sekarang"
+                    android:textColor="@color/text_button"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

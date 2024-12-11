@@ -18,6 +18,7 @@ import com.nafis.moneylaundry.extensions.getImageResourceByName
 import com.nafis.moneylaundry.fragments.PaketLaundryFragment
 import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
 import com.nafis.moneylaundry.transaction.EditPaketActivity
+import com.nafis.moneylaundry.transaction.PremiumActivity
 
 class   PaketLaundryVerticalRecyclerview(
     private var listPaketLaundry: MutableList<PaketLaundryModel>,
@@ -71,11 +72,13 @@ class   PaketLaundryVerticalRecyclerview(
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position == listPaketLaundry.size) {
             val premiumHolder = holder as PremiumViewHolder
             premiumHolder.itemView.setOnClickListener {
-                listener?.onItemClick(PaketLaundryModel(name = "Subscribe", price_per_kg = 0, description = "", logo = ""))
+                val intent = Intent(holder.itemView.context, PremiumActivity::class.java)
+                holder.itemView.context.startActivity(intent)
             }
         } else {
             val currentPaketLaundry = listPaketLaundry[position]
@@ -96,7 +99,6 @@ class   PaketLaundryVerticalRecyclerview(
                 (fragment as? PaketLaundryFragment)?.deletePaketLaundry(currentPaketLaundry.package_laundry_id)
             }
 
-            // Set data to views
             holder.itemView.findViewById<TextView>(R.id.tv_paketLaundry).text = currentPaketLaundry.name
 
             val imageView = holder.itemView.findViewById<ImageView>(R.id.iv_paketLaundry)

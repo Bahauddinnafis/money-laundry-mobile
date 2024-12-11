@@ -20,16 +20,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Cek apakah token ada di SharedPreferences
         val sharedPreferencesHelper = SharedPreferencesHelper(this)
         val token = sharedPreferencesHelper.getToken()
 
         if (token.isNullOrEmpty()) {
-            // Jika token kosong atau null, arahkan ke LoginActivity
             startActivity(Intent(this, LoginActivity::class.java))
-            finish() // Jangan biarkan kembali ke halaman utama
+            finish()
         } else {
-            // Token ada, lanjutkan dengan alur normal
             replaceFragment(HomeFragment())
         }
 
