@@ -42,6 +42,15 @@ class LoginActivity : AppCompatActivity() {
         val factory = UserViewModelFactory(application, laundryRepository)
         userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
 
+        userViewModel.accountStatusChanged.observe(this) { hasChanged ->
+            if (hasChanged) {
+                showCustomToastError(this, "Akun Anda telah diperbarui. Silakan logout dan login kembali.")
+                sharedPreferencesHelper.clearUserData()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
+
         userViewModel.loginResult.observe(this) { result ->
             result.onSuccess { loginResponse ->
                 loginResponse.data?.let { data ->
@@ -53,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     data.user?.accountStatusId?.let { accountStatusId ->
                         sharedPreferencesHelper.saveAccountStatus(accountStatusId)
+                        Log.d("LoginActivity", "Account Status ID: $accountStatusId")
                     }
                     data.user?.storeName?.let { storeName ->
                         sharedPreferencesHelper.saveStoreName(storeName)
@@ -75,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
 
                     Log.d("LoginActivity", "Store Name from SharedPreferences: $storeName")
                     Log.d("LoginActivity", "Store Address from SharedPreferences: $storeAddress")
+                    Log.d("LoginActivity", "Status Akun: ${data.user?.accountStatusId}")
                 }
                 showCustomToastSuccess(this, "Login Berhasil!")
                 startActivity(Intent(this, MainActivity::class.java))

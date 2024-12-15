@@ -1,11 +1,14 @@
 package com.nafis.moneylaundry.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -20,6 +23,7 @@ import com.nafis.moneylaundry.databinding.FragmentMoneyBinding
 import com.nafis.moneylaundry.models.money.ResponseMoney
 import com.nafis.moneylaundry.models.money.TotalMoneyItem
 import com.nafis.moneylaundry.models.money.TotalTransactionItem
+import com.nafis.moneylaundry.transaction.PremiumActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,9 +44,26 @@ class MoneyFragment : Fragment() {
         _binding = FragmentMoneyBinding.inflate(inflater, container, false)
 
         sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
+        val accountStatusId = sharedPreferencesHelper.getAccountStatus()
+        Log.d("HomeFragment", "Account Status ID: $accountStatusId")
         getMoneyData()
 
+        if (accountStatusId == 1) {
+            showUpgradeMessage()
+        }
+
+        binding.btnPremium.setOnClickListener {
+            val intent = Intent(requireContext(), PremiumActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
+    }
+
+    private fun showUpgradeMessage() {
+        binding.viewBlur.visibility = View.VISIBLE
+        binding.tvUpgradeMessage.visibility = View.VISIBLE
+        binding.btnPremium.visibility = View.VISIBLE
     }
 
     private fun getMoneyData() {

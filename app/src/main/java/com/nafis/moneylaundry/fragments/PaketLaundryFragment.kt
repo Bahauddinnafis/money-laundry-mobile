@@ -47,6 +47,10 @@ class PaketLaundryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPaketLaundryBinding.inflate(inflater, container, false)
+
+        val sharedPrefsHelper = SharedPreferencesHelper(requireContext())
+        val accountStatusId = sharedPrefsHelper.getAccountStatus()
+        Log.d("HomeFragment", "Account Status ID: $accountStatusId")
         return binding.root
     }
 

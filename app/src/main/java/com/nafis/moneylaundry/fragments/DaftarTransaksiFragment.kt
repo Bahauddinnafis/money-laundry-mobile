@@ -47,6 +47,10 @@ class DaftarTransaksiFragment : Fragment() {
     ): View {
         _binding = FragmentDaftarTransaksiBinding.inflate(inflater, container, false)
 
+        val sharedPrefsHelper = SharedPreferencesHelper(requireContext())
+        val accountStatusId = sharedPrefsHelper.getAccountStatus()
+        Log.d("HomeFragment", "Account Status ID: $accountStatusId")
+
         @Suppress("DEPRECATION")
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             for (i in 0 until group.childCount) {

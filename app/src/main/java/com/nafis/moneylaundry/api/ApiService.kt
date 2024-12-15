@@ -10,6 +10,7 @@ import com.nafis.moneylaundry.models.packageLaundry.ResponseDeletePackage
 import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
 import com.nafis.moneylaundry.models.packageLaundry.ResponseUpdatePackage
 import com.nafis.moneylaundry.models.transactions.CreateOrderRequest
+import com.nafis.moneylaundry.models.transactions.ResponseCheckAccount
 import com.nafis.moneylaundry.models.transactions.ResponseCreateOrder
 import com.nafis.moneylaundry.models.transactions.ResponseDashboard
 import com.nafis.moneylaundry.models.transactions.ResponseFilterOrder
@@ -127,4 +128,14 @@ interface ApiService {
         @Path("userId") userId: Int,
         @Body requestBody: Map<String, String>
     ): Call<ResponseFilterOrder>
+
+    @GET("user/check-package-laundry/{userId}")
+    fun checkPackageLaundry(
+        @Path("userId") userId: Int
+    ): Call<ResponseCheckAccount>
+
+    @DELETE("user/package-laundry/{userId}")
+    fun deleteExistingPackage(
+        @Path("userId") userId: Int
+    ): Call<com.nafis.moneylaundry.models.transactions.ResponseDeletePackage>
 }

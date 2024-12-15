@@ -6,10 +6,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nafis.moneylaundry.SharedPreferencesHelper
+import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.models.auth.LoginResponse
 import com.nafis.moneylaundry.models.packageLaundry.PaketLaundryModel
+import com.nafis.moneylaundry.models.transactions.ResponseCheckAccount
+import com.nafis.moneylaundry.models.transactions.ResponseDeletePackage
 import com.nafis.moneylaundry.repository.AuthRepository
 import com.nafis.moneylaundry.repository.LaundryRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class UserViewModel(application: Application, private val laundryRepository: LaundryRepository) : AndroidViewModel(application) {
 
@@ -31,6 +37,8 @@ class UserViewModel(application: Application, private val laundryRepository: Lau
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _accountStatusChanged = MutableLiveData<Boolean>()
+    val accountStatusChanged: LiveData<Boolean> get() = _accountStatusChanged
 
     fun getUserId(): Int = preferencesHelper.getUserId()
 
@@ -44,10 +52,10 @@ class UserViewModel(application: Application, private val laundryRepository: Lau
         return preferencesHelper.getPackageLaundryId()
     }
 
-    fun loginUser(email: String, password: String) {
+    fun loginUser (email: String, password: String) {
         _isLoading.postValue(true)
 
-        authRepository.loginUser(email, password) { result ->
+        authRepository.loginUser (email, password) { result ->
             _isLoading.postValue(false)
 
             _loginResult.postValue(result)
@@ -57,6 +65,13 @@ class UserViewModel(application: Application, private val laundryRepository: Lau
                         preferencesHelper.saveToken(data.token ?: "")
                         preferencesHelper.saveUserId(user.users_id ?: -1)
                         preferencesHelper.saveAccountStatus(user.accountStatusId ?: 1)
+
+                        val currentAccountStatus = preferencesHelper.getAccountStatus()
+                        val newAccountStatus = user.accountStatusId
+
+                        if (currentAccountStatus != newAccountStatus) {
+                            _accountStatusChanged.postValue(true)
+                        }
                     }
                 }
             }
@@ -114,6 +129,31 @@ class UserViewModel(application: Application, private val laundryRepository: Lau
         return !(accountStatus == 1 && currentPaketCount >= 3)
     }
 
+    fun checkPackageLaundry(userId: Int, onResult: (Boolean) -> Unit) {
+        val token = preferencesHelper.getToken()
+        if (token.isNullOrEmpty()) {
+            onResult(false)
+            return
+        }
+
+        ApiClient.instance.checkPackageLaundry(userId).enqueue(object : Callback<ResponseCheckAccount> {
+            override fun onResponse(call: Call<ResponseCheckAccount>, response: Response<ResponseCheckAccount>) {
+                if (response.isSuccessful) {
+                    val canAdd = response.body()?.status == true
+                    onResult(canAdd)
+                } else {
+                    Log.e("User ViewModel", "Error checking package laundry: ${response.message()}")
+                    onResult(false)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseCheckAccount>, t: Throwable) {
+                Log.e("User ViewModel", "Failure checking package laundry: ${t.message}")
+                onResult(false)
+            }
+        })
+    }
+
     fun updatePaketLaundry(paketLaundry: PaketLaundryModel) {
         val token = preferencesHelper.getToken()
         if (token.isNullOrEmpty()) {
@@ -136,6 +176,27 @@ class UserViewModel(application: Application, private val laundryRepository: Lau
         laundryRepository.deletePackageLaundry(packageLaundryId, token) { result ->
             _deletePaketResult.value = result
         }
+    }
+
+    fun deleteExistingPackages(userId: Int) {
+        val token = preferencesHelper.getToken()
+        if (token.isNullOrEmpty()) {
+            return
+        }
+
+        ApiClient.instance.deleteExistingPackage(userId).enqueue(object : Callback<ResponseDeletePackage> {
+            override fun onResponse(call: Call<ResponseDeletePackage>, response: Response<ResponseDeletePackage>) {
+                if (response.isSuccessful) {
+                    Log.d("User ViewModel", "Excess packages deleted successfully.")
+                } else {
+                    Log.e("User ViewModel", "Error deleting excess packages: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseDeletePackage>, t: Throwable) {
+                Log.e("User ViewModel", "Failure deleting excess packages: ${t.message}")
+            }
+        })
     }
 }
 

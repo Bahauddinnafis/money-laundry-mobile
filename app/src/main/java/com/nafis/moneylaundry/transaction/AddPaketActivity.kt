@@ -78,14 +78,21 @@ class AddPaketActivity : AppCompatActivity() {
             return
         }
 
-        val paketLaundry = PaketLaundryModel(
-            name = name,
-            price_per_kg = pricePerKg,
-            description = description,
-            logo = selectedImage ?: ""
-        )
+        userViewModel.checkPackageLaundry(userViewModel.getUserId()) { canAdd ->
+            if (!canAdd) {
+                showCustomToastError(this, "Akun Bronze hanya bisa menambahkan maksimal 3 paket laundry.")
+                return@checkPackageLaundry
+            }
 
-        createPackageLaundry(paketLaundry)
+            val paketLaundry = PaketLaundryModel(
+                name = name,
+                price_per_kg = pricePerKg,
+                description = description,
+                logo = selectedImage ?: ""
+            )
+
+            createPackageLaundry(paketLaundry)
+        }
     }
 
     private fun createPackageLaundry(paketLaundryModel: PaketLaundryModel) {
@@ -101,9 +108,14 @@ class AddPaketActivity : AppCompatActivity() {
             return
         }
 
-        if (!userViewModel.canAddPaketLaundry()) {
-            showCustomToastError(this, "Akun Basic hanya bisa menambahkan maksimal 3 paket laundry.")
-            return
+        userViewModel.checkPackageLaundry(userViewModel.getUserId()) { canAdd ->
+            if (!canAdd) {
+                showCustomToastError(
+                    this,
+                    "Akun Bronze hanya bisa menambahkan maksimal 3 paket laundry."
+                )
+                return@checkPackageLaundry
+            }
         }
 
         binding.progressBar.visibility = View.VISIBLE

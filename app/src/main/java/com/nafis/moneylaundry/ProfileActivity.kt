@@ -21,12 +21,40 @@ class ProfileActivity : AppCompatActivity() {
         val phoneNumber = sharedPreferencesHelper.getPhoneNumber()
         val storeName = sharedPreferencesHelper.getStoreName()
         val storeAddress = sharedPreferencesHelper.getStoreAddress()
+        val accountStatusId = sharedPreferencesHelper.getAccountStatus()
 
         binding.edtUsername.setText(username)
         binding.edtEmail.setText(email)
         binding.edtNomorTelpon.setText(phoneNumber)
         binding.edtNamaToko.setText(storeName)
         binding.edtAlamatToko.setText(storeAddress)
+
+        when (accountStatusId) {
+            1 -> {
+                binding.llContent.setBackgroundResource(R.drawable.member_bronze_background)
+                binding.llMemberDetail.setBackgroundResource(R.drawable.member_bronze_background)
+                binding.tvMember.text = "Bronze Member"
+                binding.ivMember.setImageResource(R.drawable.bronze_member)
+            }
+            2 -> {
+                binding.llContent.setBackgroundResource(R.drawable.member_silver_background)
+                binding.llMemberDetail.setBackgroundResource(R.drawable.member_silver_background)
+                binding.tvMember.text = "Silver Member"
+                binding.ivMember.setImageResource(R.drawable.silver_member)
+            }
+            3 -> {
+                binding.llContent.setBackgroundResource(R.drawable.member_gold_background)
+                binding.llMemberDetail.setBackgroundResource(R.drawable.member_gold_background)
+                binding.tvMember.text = "Gold Member"
+                binding.ivMember.setImageResource(R.drawable.gold_member)
+            }
+            else -> {
+                binding.llContent.setBackgroundResource(R.drawable.member_bronze_background)
+                binding.llMemberDetail.setBackgroundResource(R.drawable.member_bronze_background)
+                binding.tvMember.text = "Bronze Member"
+                binding.ivMember.setImageResource(R.drawable.bronze_member)
+            }
+        }
 
         binding.llContent.setOnClickListener {
             val intent = Intent(this, PremiumActivity::class.java)

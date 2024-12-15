@@ -53,6 +53,16 @@ class HomeFragment : Fragment() {
         userId = sharedPrefsHelper.getUserId()
         val token = sharedPrefsHelper.getToken()
 
+        val accountStatusId = sharedPrefsHelper.getAccountStatus()
+        Log.d("HomeFragment", "Account Status ID: $accountStatusId")
+
+        when (accountStatusId) {
+            1 -> binding.llProfileHome.setBackgroundResource(R.drawable.member_bronze_background)
+            2 -> binding.llProfileHome.setBackgroundResource(R.drawable.member_silver_background)
+            3 -> binding.llProfileHome.setBackgroundResource(R.drawable.member_gold_background)
+            else -> binding.llProfileHome.setBackgroundResource(R.drawable.member_bronze_background)
+        }
+
         if (userId == -1 || token.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Data pengguna tidak ditemukan. Silakan login ulang.", Toast.LENGTH_SHORT).show()
             startActivity(Intent(requireContext(), LoginActivity::class.java))
