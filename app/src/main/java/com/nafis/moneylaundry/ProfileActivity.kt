@@ -2,12 +2,10 @@ package com.nafis.moneylaundry
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.nafis.moneylaundry.auth.LoginActivity
 import com.nafis.moneylaundry.databinding.ActivityProfileBinding
+import com.nafis.moneylaundry.transaction.PremiumActivity
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
@@ -29,6 +27,11 @@ class ProfileActivity : AppCompatActivity() {
         binding.edtNomorTelpon.setText(phoneNumber)
         binding.edtNamaToko.setText(storeName)
         binding.edtAlamatToko.setText(storeAddress)
+
+        binding.llContent.setOnClickListener {
+            val intent = Intent(this, PremiumActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.ivBackButton.setOnClickListener {
             finish()

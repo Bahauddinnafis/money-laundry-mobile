@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -21,16 +23,21 @@ import com.nafis.moneylaundry.models.transactions.DataTransaction
 import com.nafis.moneylaundry.models.transactions.ResponseSendInvoice
 import com.nafis.moneylaundry.models.transactions.ResponseTransactionOrder
 import com.nafis.moneylaundry.models.transactions.ResponseUpdatePayment
+import com.nafis.moneylaundry.models.transactions.ResponseUpdateStatus
 import com.nafis.moneylaundry.sheet.AddonsAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Suppress("NAME_SHADOWING")
 class OrderStatusActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderStatusBinding
     private lateinit var addonsAdapter: AddonsAdapter
     private val addonsList: MutableList<AddonDetail> = mutableListOf()
+    private var isPaymentToastShown = false
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +89,26 @@ class OrderStatusActivity : AppCompatActivity() {
             }
         }
 
+        // Update Order Status
+        binding.radioGroup2.setOnCheckedChangeListener { _, checkedId ->
+            val sharedPreferencesHelper = SharedPreferencesHelper(this)
+            val token = "Bearer ${sharedPreferencesHelper.getToken()}"
+            val transactionOrderId = intent.getIntExtra("transactionOrderId", -1)
+
+            val status = when (checkedId) {
+                R.id.radioNew -> "new"
+                R.id.radioProcess -> "on process"
+                R.id.radioDone -> "done"
+                else -> null
+            }
+
+            if (status != null && transactionOrderId != -1) {
+                updateStatusTransaction(token, transactionOrderId, status)
+            } else {
+                Toast.makeText(this, "Transaction ID atau status tidak ditemukan", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // Send Invoice to WhatsApp
         binding.btnSendWa.setOnClickListener {
             val transactionOrderId = intent.getIntExtra("transactionOrderId", -1)
@@ -127,18 +154,41 @@ class OrderStatusActivity : AppCompatActivity() {
         ApiClient.instance.updatePayment(token, transactionOrderId, requestBody).enqueue(object : Callback<ResponseUpdatePayment> {
             override fun onResponse(call: Call<ResponseUpdatePayment>, response: Response<ResponseUpdatePayment>) {
                 if (response.isSuccessful) {
-                    val message = response.body()?.message ?: "Status pembayaran berhasil diperbarui"
-                    Toast.makeText(this@OrderStatusActivity, message, Toast.LENGTH_SHORT).show()
                     Log.d("UpdatePayment", "Berhasil: ${response.body()}")
+                    if (paymentStatus == "paid" && !isPaymentToastShown) {
+                        showCustomToastSuccess(this@OrderStatusActivity, "Status pembayaran berhasil diperbarui")
+                        isPaymentToastShown = true
+                    }
                 } else {
                     val errorBody = response.errorBody()?.string()
                     Log.e("UpdatePaymentError", "Error: $errorBody").toString()
-                    Toast.makeText(this@OrderStatusActivity, "Gagal memperbarui status pembayaran: $errorBody", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<ResponseUpdatePayment>, t: Throwable) {
                 Log.e("UpdatePaymentFailure", "Kesalahan: ${t.message}")
+                Toast.makeText(this@OrderStatusActivity, "Kesalahan jaringan: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateStatusTransaction(token: String, transactionOrderId: Int, status: String) {
+        val requestBody = mapOf("status" to status)
+
+        ApiClient.instance.updateStatusTransaction(token, transactionOrderId, requestBody).enqueue(object : Callback<ResponseUpdateStatus> {
+            override fun onResponse(call: Call<ResponseUpdateStatus>, response: Response<ResponseUpdateStatus>) {
+                if (response.isSuccessful) {
+                    Log.d("UpdateStatus", "Berhasil: ${response.body()}")
+                    showCustomToastSuccess(this@OrderStatusActivity, "Status transaksi berhasil diperbarui")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("UpdateStatusError", "Error: $errorBody")
+                    showCustomToastError(this@OrderStatusActivity, "Gagal memperbarui status transaksi: $errorBody")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseUpdateStatus>, t: Throwable) {
+                Log.e("UpdateStatusFailure", "Kesalahan: ${t.message}")
                 Toast.makeText(this@OrderStatusActivity, "Kesalahan jaringan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -157,7 +207,7 @@ class OrderStatusActivity : AppCompatActivity() {
                     if (waUrl != null) {
                         openWhatsApp(waUrl)
                     } else {
-                        Toast.makeText(this@OrderStatusActivity, "URL WhatsApp tidak ditemukan", Toast.LENGTH_SHORT).show()
+                        showCustomToastError(this@OrderStatusActivity, "URL WhatsApp tidak ditemukan")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -178,8 +228,8 @@ class OrderStatusActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             intent.setPackage("com.whatsapp")
             startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "WhatsApp tidak ditemukan di perangkat ini", Toast.LENGTH_SHORT).show()
+        } catch (_: Exception) {
+            showCustomToastError(this, "WhatsApp tidak ditemukan di perangkat ini")
         }
     }
 
@@ -192,8 +242,8 @@ class OrderStatusActivity : AppCompatActivity() {
             binding.edtNamaPaket.setText(details.packageLaundry?.name)
             binding.edtDeskripsiPaket.setText(details.packageLaundry?.description)
             binding.edtBerat.setText(details.weight.toString())
-            binding.edtOrderDate.setText(details.orderDate)
-            binding.edtPickUpDate.setText(details.pickUpDate)
+            binding.edtOrderDate.setText(formatDate(details.orderDate))
+            binding.edtPickUpDate.setText(formatDate(details.pickUpDate))
             binding.edtQty.setText(details.quantity.toString())
 
             val paymentStatus = details.paymentStatus
@@ -266,5 +316,51 @@ class OrderStatusActivity : AppCompatActivity() {
                 binding.llVerticalAddons.addView(addonLayout)
             }
         }
+    }
+
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    private fun formatDate(dateString: String?): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date: Date? = inputFormat.parse(dateString)
+            outputFormat.format(date ?: Date())
+        } catch (_: Exception) {
+            ""
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

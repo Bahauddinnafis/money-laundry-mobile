@@ -2,10 +2,10 @@ package com.nafis.moneylaundry.models.transactions
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseGetOrder(
+data class ResponseFilterOrder(
 
 	@field:SerializedName("data")
-	val data: DataOrder? = null,
+	val data: DataFilter? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,
@@ -17,70 +17,7 @@ data class ResponseGetOrder(
 	val statusCode: Int? = null
 )
 
-data class CustomerOrder(
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("users_id")
-	val usersId: Int? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("phone_number")
-	val phoneNumber: String? = null,
-
-	@field:SerializedName("customer_id")
-	val customerId: Int? = null,
-
-	@field:SerializedName("deleted_at")
-	val deletedAt: Any? = null
-)
-
-data class AddOnItemGet(
-
-	@field:SerializedName("price_per_item")
-	val pricePerItem: Int? = null,
-
-	@field:SerializedName("quantity")
-	val quantity: Int? = null,
-
-	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
-
-	@field:SerializedName("subtotal")
-	val subtotal: Int? = null,
-
-	@field:SerializedName("add_on_item_id")
-	val addOnItemId: Int? = null,
-
-	@field:SerializedName("created_at")
-	val createdAt: String? = null,
-
-	@field:SerializedName("item_name")
-	val itemName: String? = null,
-
-	@field:SerializedName("deleted_at")
-	val deletedAt: Any? = null,
-
-	@field:SerializedName("transaction_order_id")
-	val transactionOrderId: Int? = null
-)
-
-data class DataOrder(
-
-	@field:SerializedName("total_data_transaction")
-	val totalDataTransaction: Int? = null,
-
-	@field:SerializedName("transaction_order")
-	val transactionOrder: List<TransactionOrderItemFilter?>? = null
-)
-
-data class PackageLaundry(
+data class PackageLaundryFilter(
 
 	@field:SerializedName("price_per_kg")
 	val pricePerKg: Int? = null,
@@ -110,10 +47,10 @@ data class PackageLaundry(
 	val packageLaundryId: Int? = null
 )
 
-data class TransactionOrderItem(
+data class TransactionOrderItemFilter(
 
 	@field:SerializedName("add_on_item")
-	val addOnItem: List<AddOnItemGet?>? = null,
+	val addOnItem: List<AddOnItemItemFilter?>? = null,
 
 	@field:SerializedName("pick_up_date")
 	val pickUpDate: String? = null,
@@ -125,7 +62,7 @@ data class TransactionOrderItem(
 	val totalPrice: Int? = null,
 
 	@field:SerializedName("package_laundry")
-	val packageLaundry: PackageLaundryTransaction? = null,
+	val packageLaundry: PackageLaundryFilter? = null,
 
 	@field:SerializedName("payment_status")
 	val paymentStatus: String? = null,
@@ -161,7 +98,7 @@ data class TransactionOrderItem(
 	val packageLaundryId: Int? = null,
 
 	@field:SerializedName("payment_date")
-	val paymentDate: Any? = null,
+	val paymentDate: String? = null,
 
 	@field:SerializedName("transaction_order_id")
 	val transactionOrderId: Int? = null,
@@ -170,5 +107,68 @@ data class TransactionOrderItem(
 	val status: String? = null,
 
 	@field:SerializedName("customer")
-	val customer: CustomerOrder? = null
+	val customer: CustomerFilter? = null
+)
+
+data class CustomerFilter(
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("name")
+	val name: String? = null,
+
+	@field:SerializedName("users_id")
+	val usersId: Int? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("phone_number")
+	val phoneNumber: String? = null,
+
+	@field:SerializedName("customer_id")
+	val customerId: Int? = null,
+
+	@field:SerializedName("deleted_at")
+	val deletedAt: Any? = null
+)
+
+data class AddOnItemItemFilter(
+
+	@field:SerializedName("price_per_item")
+	val pricePerItem: Int? = null,
+
+	@field:SerializedName("quantity")
+	val quantity: Int? = null,
+
+	@field:SerializedName("updated_at")
+	val updatedAt: String? = null,
+
+	@field:SerializedName("subtotal")
+	val subtotal: Int? = null,
+
+	@field:SerializedName("add_on_item_id")
+	val addOnItemId: Int? = null,
+
+	@field:SerializedName("created_at")
+	val createdAt: String? = null,
+
+	@field:SerializedName("item_name")
+	val itemName: String? = null,
+
+	@field:SerializedName("deleted_at")
+	val deletedAt: Any? = null,
+
+	@field:SerializedName("transaction_order_id")
+	val transactionOrderId: Int? = null
+)
+
+data class DataFilter(
+
+	@field:SerializedName("total_data_transaction")
+	val totalDataTransaction: Int? = null,
+
+	@field:SerializedName("transaction_order")
+	val transactionOrder: List<TransactionOrderItemFilter?>? = null
 )

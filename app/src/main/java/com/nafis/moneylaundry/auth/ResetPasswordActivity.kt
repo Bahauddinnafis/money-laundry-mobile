@@ -1,12 +1,13 @@
 package com.nafis.moneylaundry.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.databinding.ActivityResetPasswordBinding
@@ -33,11 +34,10 @@ class ResetPasswordActivity : AppCompatActivity() {
             val password = binding.edtPassword.text.toString().trim()
             val passwordConfirmation = binding.edtKonfirmasiPassword.text.toString().trim()
 
-            // Validasi input
             if (password.isNotEmpty() && password == passwordConfirmation) {
                 resetPassword(email, otp, password)
             } else {
-                Toast.makeText(this, "Password dan konfirmasi password tidak cocok", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Password dan konfirmasi password tidak cocok")
             }
         }
     }
@@ -54,11 +54,11 @@ class ResetPasswordActivity : AppCompatActivity() {
         apiService.resetPassword(payload).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@ResetPasswordActivity, "Password berhasil diubah", Toast.LENGTH_SHORT).show()
+                    showCustomToastSuccess(this@ResetPasswordActivity, "Password berhasil diubah")
                     startActivity(Intent(this@ResetPasswordActivity, LoginActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(this@ResetPasswordActivity, "Gagal mengubah password", Toast.LENGTH_SHORT).show()
+                    showCustomToastError(this@ResetPasswordActivity, "Gagal mengubah password")
                 }
             }
 
@@ -66,5 +66,39 @@ class ResetPasswordActivity : AppCompatActivity() {
                 Toast.makeText(this@ResetPasswordActivity, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

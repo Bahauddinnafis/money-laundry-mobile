@@ -1,11 +1,16 @@
 package com.nafis.moneylaundry.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.databinding.ActivityForgetPasswordBinding
 import com.nafis.moneylaundry.repository.AuthRepository
 
@@ -26,31 +31,63 @@ class ForgetPasswordActivity : AppCompatActivity() {
         binding.btnSelesai.setOnClickListener {
             val email = binding.edtEmail.text.toString().trim()
 
-            // Validasi email
             if (email.isEmpty()) {
                 Toast.makeText(this, "Email tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Email tidak boleh kosong")
                 return@setOnClickListener
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Email tidak valid", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Email tidak valid")
                 return@setOnClickListener
             }
 
-            // Kirim permintaan OTP
             authRepository.sendOtpToEmail(email) { isSuccess, message ->
                 if (isSuccess) {
                     Log.d("ForgetPassword", "OTP sent successfully: $message")
-                    Toast.makeText(this, "Kode OTP berhasil dikirim", Toast.LENGTH_SHORT).show()
+                    showCustomToastSuccess(this, "Kode OTP berhasil dikirim")
 
-                    // Navigasi ke ConfirmActivity
                     val intent = Intent(this, ConfirmActivity::class.java)
                     intent.putExtra("email", email)
                     startActivity(intent)
                 } else {
                     Log.e("ForgetPassword", "Failed to send OTP: $message")
-                    Toast.makeText(this, "Gagal mengirim kode OTP: $message", Toast.LENGTH_SHORT).show()
+                    showCustomToastError(this, "Gagal mengirim kode OTP")
                 }
             }
         }
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

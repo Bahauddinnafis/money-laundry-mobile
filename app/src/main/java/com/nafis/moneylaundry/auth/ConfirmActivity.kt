@@ -1,18 +1,17 @@
 package com.nafis.moneylaundry.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.api.ApiClient
-import com.nafis.moneylaundry.api.ApiService
 import com.nafis.moneylaundry.databinding.ActivityConfirmBinding
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -38,7 +37,6 @@ class ConfirmActivity : AppCompatActivity() {
 
         binding.pvOtp.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
-                // Memastikan keyboard muncul
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
             }
@@ -48,16 +46,17 @@ class ConfirmActivity : AppCompatActivity() {
             val otp = binding.pvOtp.text.toString().trim()
             val email = intent.getStringExtra("email") ?: ""
 
-            if (otp.length == 4) { // Validasi panjang kode OTP
+            if (otp.length == 4) {
                 verifyOtp(email, otp)
             } else {
-                Toast.makeText(this, "Kode OTP harus 4 digit", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Kode OTP harus 4 digit")
             }
         }
     }
 
     private fun startTimer() {
         timer = object : CountDownTimer(timeLeftInMillis, 1000) {
+            @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftInMillis = millisUntilFinished
                 val minutes = (timeLeftInMillis / 1000) / 60
@@ -65,13 +64,13 @@ class ConfirmActivity : AppCompatActivity() {
                 binding.tvTimer.text = String.format("%02d:%02d", minutes, seconds)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onFinish() {
                 binding.tvTimer.text = "Expired"
-                Toast.makeText(this@ConfirmActivity, "Kode OTP telah kadaluarsa", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this@ConfirmActivity, "Kode OTP telah kadaluarsa")
 
                 binding.btnSubmit.visibility = View.INVISIBLE
 
-                // Menampilkan tombol untuk kirim ulang OTP
                 binding.btnResendOtp.visibility = View.VISIBLE
                 binding.btnResendOtp.isEnabled = true
                 binding.btnResendOtp.text = "Kirim Ulang OTP"
@@ -82,8 +81,8 @@ class ConfirmActivity : AppCompatActivity() {
         }.start()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun resendOtp() {
-        // Nonaktifkan tombol resend untuk mencegah klik berulang
         binding.btnResendOtp.isEnabled = false
         binding.btnResendOtp.text = "Menunggu..."
 
@@ -98,28 +97,16 @@ class ConfirmActivity : AppCompatActivity() {
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@ConfirmActivity,
-                            "OTP telah dikirim ulang ke email Anda",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showCustomToastSuccess(this@ConfirmActivity, "OTP telah dikirim ulang ke email Anda")
 
-                        // Mulai ulang timer
-                        timeLeftInMillis = 300000 // 5 menit
+                        timeLeftInMillis = 300000
                         startTimer()
 
-                        // Menyembunyikan tombol resend OTP
                         binding.btnResendOtp.visibility = View.GONE
 
-                        // Menampilkan kembali tombol submit
                         binding.btnSubmit.visibility = View.VISIBLE
                     } else {
-                        Toast.makeText(
-                            this@ConfirmActivity,
-                            "Gagal mengirim ulang OTP",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Aktifkan tombol resend setelah sedikit penundaan jika gagal
+                        showCustomToastError(this@ConfirmActivity, "Gagal mengirim ulang OTP")
                         binding.btnResendOtp.isEnabled = true
                         binding.btnResendOtp.text = "Kirim Ulang OTP"
                     }
@@ -131,13 +118,12 @@ class ConfirmActivity : AppCompatActivity() {
                         "Terjadi kesalahan: ${t.message}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    // Aktifkan tombol resend jika permintaan gagal
                     binding.btnResendOtp.isEnabled = true
                     binding.btnResendOtp.text = "Kirim Ulang OTP"
                 }
             })
         } else {
-            Toast.makeText(this, "Email tidak ditemukan", Toast.LENGTH_SHORT).show()
+            showCustomToastError(this, "Email tidak ditemukan")
         }
     }
 
@@ -151,21 +137,13 @@ class ConfirmActivity : AppCompatActivity() {
                 response: Response<Map<String, Any>>
             ) {
                 if (response.isSuccessful) {
-                    Toast.makeText(
-                        this@ConfirmActivity,
-                        "Kode OTP berhasil diverifikasi!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showCustomToastSuccess(this@ConfirmActivity, "Kode OTP berhasil diverifikasi!")
                     val intent = Intent(this@ConfirmActivity, ResetPasswordActivity::class.java)
                     intent.putExtra("email", email)
                     intent.putExtra("otp", otp)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(
-                        this@ConfirmActivity,
-                        "Kode OTP salah atau kadaluarsa",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showCustomToastError(this@ConfirmActivity, "Kode OTP salah atau kadaluarsa")
                 }
             }
 
@@ -177,6 +155,40 @@ class ConfirmActivity : AppCompatActivity() {
                 ).show()
             }
         })
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 
     override fun onDestroy() {

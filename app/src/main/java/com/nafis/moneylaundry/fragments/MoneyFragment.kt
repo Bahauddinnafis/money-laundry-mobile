@@ -23,6 +23,8 @@ import com.nafis.moneylaundry.models.money.TotalTransactionItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
+import java.util.Locale
 
 class MoneyFragment : Fragment() {
     private var _binding: FragmentMoneyBinding? = null
@@ -62,7 +64,9 @@ class MoneyFragment : Fragment() {
                             binding.tvJumlahPesananMasuk.text = it.transactionOrderNew?.toString() ?: "0"
                             binding.tvJumlahPesananProses.text = it.transactionOrderOnProcess?.toString() ?: "0"
                             binding.tvJumlahPesananSelesai.text = it.transactionOrderDone?.toString() ?: "0"
-                            binding.tvJumlahPendapatan.text = it.transactionOrderIncome ?: "0"
+                            val pendapatan = it.transactionOrderIncome?.toDoubleOrNull() ?: 0.0
+                            val formatRupiah = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+                            binding.tvJumlahPendapatan.text = formatRupiah.format(pendapatan)
                             Log.d("Transaction Data", "New Orders: ${it.transactionOrderNew}")
                             Log.d("Transaction Data", "Orders On Process: ${it.transactionOrderOnProcess}")
                             Log.d("Transaction Data", "Orders Done: ${it.transactionOrderDone}")
@@ -93,6 +97,15 @@ class MoneyFragment : Fragment() {
     private fun setupBarChartPendapatan(totalMoney: List<TotalMoneyItem?>?) {
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
+        val dayAbbreviations = mapOf(
+            "Monday" to "Sen",
+            "Tuesday" to "Sel",
+            "Wednesday" to "Rab",
+            "Thursday" to "Kam",
+            "Friday" to "Jum",
+            "Saturday" to "Sab",
+            "Sunday" to "Min"
+        )
 
         binding.chartPendapatan.clear()
 
@@ -100,7 +113,7 @@ class MoneyFragment : Fragment() {
             Log.d("TotalMoneyItem", "Index: $index, Total: ${item?.totalMoney}, Day: ${item?.orderDay}")
             item?.totalMoney?.let {
                 entries.add(BarEntry(index.toFloat(), it.toFloat()))
-                labels.add(item.orderDay ?: "")
+                labels.add(dayAbbreviations[item.orderDay] ?: item.orderDay ?: "")
             }
         }
 
@@ -119,17 +132,34 @@ class MoneyFragment : Fragment() {
         binding.chartPendapatan.axisRight.setDrawGridLines(false)
         binding.chartPendapatan.axisRight.setDrawLabels(false)
         binding.chartPendapatan.axisLeft.setDrawLabels(true)
+        binding.chartPendapatan.axisLeft.axisMinimum = 0f
         binding.chartPendapatan.invalidate()
+
+        entries.forEachIndexed { index, entry ->
+            Log.d("BarEntryPendapatan", "Index: $index, Value: ${entry.y}")
+        }
+        labels.forEachIndexed { index, label ->
+            Log.d("BarLabelPendapatan", "Index: $index, Label: $label")
+        }
     }
 
     private fun setupBarChartTransaksi(totalTransaction: List<TotalTransactionItem?>?) {
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
+        val dayAbbreviations = mapOf(
+            "Monday" to "Sen",
+            "Tuesday" to "Sel",
+            "Wednesday" to "Rab",
+            "Thursday" to "Kam",
+            "Friday" to "Jum",
+            "Saturday" to "Sab",
+            "Sunday" to "Min"
+        )
 
         totalTransaction?.forEachIndexed { index, item ->
             item?.totalTransaction?.let {
                 entries.add(BarEntry(index.toFloat(), it.toFloat()))
-                labels.add(item.orderDay ?: "")
+                labels.add(dayAbbreviations[item.orderDay] ?: item.orderDay ?: "")
             }
         }
 

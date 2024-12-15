@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.data.AddonDetail
-import com.nafis.moneylaundry.transaction.OnAddonClickListener
 
 class AddonsAdapter(
     private val addonsList: MutableList<AddonDetail>,

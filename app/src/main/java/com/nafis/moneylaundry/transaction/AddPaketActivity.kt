@@ -1,10 +1,15 @@
 package com.nafis.moneylaundry.transaction
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.api.ApiService
@@ -69,7 +74,7 @@ class AddPaketActivity : AppCompatActivity() {
         Log.e("AddPaketActivity", "Deskripsi: $description")
 
         if (name.isEmpty() || pricePerKg == null || pricePerKg <= 0 || description.isEmpty()) {
-            Toast.makeText(this, "Harap lengkapi semua field.", Toast.LENGTH_SHORT).show()
+            showCustomToastError(this, "Harap lengkapi semua field.")
             return
         }
 
@@ -86,15 +91,22 @@ class AddPaketActivity : AppCompatActivity() {
     private fun createPackageLaundry(paketLaundryModel: PaketLaundryModel) {
         val token = SharedPreferencesHelper(this).getToken()
 
+        if (false) {
+            Log.d("AddPaketActivity", "Binding is null. Cannot continue.")
+            return
+        }
+
         if (token.isNullOrEmpty()) {
             Toast.makeText(this, "Token tidak valid", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (!userViewModel.canAddPaketLaundry()) {
-            Toast.makeText(this, "Akun Basic hanya bisa menambahkan maksimal 3 paket laundry.", Toast.LENGTH_SHORT).show()
+            showCustomToastError(this, "Akun Basic hanya bisa menambahkan maksimal 3 paket laundry.")
             return
         }
+
+        binding.progressBar.visibility = View.VISIBLE
 
         apiService.createPackageLaundry("Bearer $token", paketLaundryModel).enqueue(object : Callback<ResponseCreatePackage> {
             override fun onResponse(call: Call<ResponseCreatePackage>, response: Response<ResponseCreatePackage>) {
@@ -118,17 +130,52 @@ class AddPaketActivity : AppCompatActivity() {
 
                         userViewModel.fetchPaketLaundry()
                     }
-                    Toast.makeText(this@AddPaketActivity, "Paket berhasil dibuat", Toast.LENGTH_SHORT).show()
+                    showCustomToastSuccess(this@AddPaketActivity, "Paket berhasil dibuat")
                     finish()
                 } else {
-                    Toast.makeText(this@AddPaketActivity, "Gagal menambahkan paket: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    showCustomToastError(this@AddPaketActivity, "Gagal menambahkan paket")
                 }
             }
 
             override fun onFailure(call: Call<ResponseCreatePackage>, t: Throwable) {
+                binding.progressBar.visibility = View.GONE
                 Toast.makeText(this@AddPaketActivity, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }
 

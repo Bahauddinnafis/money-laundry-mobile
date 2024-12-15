@@ -12,11 +12,13 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
 import com.nafis.moneylaundry.data.AddonDetail
@@ -89,6 +91,9 @@ class NewTransactionActivity : AppCompatActivity(), OnAddonsAddedListener, Addon
             showDatePickerDialog(binding.edtPickUpDate)
         }
         binding.ivBackButton.setOnClickListener {
+            finish()
+        }
+        binding.btnBatalkan.setOnClickListener {
             finish()
         }
         binding.btnBuatPesanan.setOnClickListener {
@@ -388,12 +393,13 @@ class NewTransactionActivity : AppCompatActivity(), OnAddonsAddedListener, Addon
                     }
                     val intent = Intent(this@NewTransactionActivity, OrderStatusActivity::class.java)
                     intent.putExtra("transactionOrderId", transactionOrderId)
+                    showCustomToastSuccess(this@NewTransactionActivity, "Pesanan berhasil dibuat")
                     startActivity(intent)
                     finish()
                     Log.d("NewTransactionActivity", "Transaction Order ID: $transactionOrderId")
                 } else {
                     Log.e("CreateOrderError", "Error: ${response.errorBody()?.string()}")
-                    Toast.makeText(this@NewTransactionActivity, "Gagal mengirim data: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    showCustomToastError(this@NewTransactionActivity, "Gagal mengirim data: ${response.message()}")
                 }
             }
 
@@ -401,5 +407,39 @@ class NewTransactionActivity : AppCompatActivity(), OnAddonsAddedListener, Addon
                 Toast.makeText(this@NewTransactionActivity, "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

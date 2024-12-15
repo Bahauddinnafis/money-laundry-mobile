@@ -7,13 +7,13 @@
         android:icon="@drawable/ic_home"
         android:iconTint="@color/green_master"/>
     <item
-        android:title="Cart"
-        android:id="@+id/cart"
+        android:title="Package"
+        android:id="@+id/packageLaundry"
         android:icon="@drawable/ic_cart"
         android:iconTint="@color/green_master"/>
     <item
-        android:title="Note"
-        android:id="@+id/note"
+        android:title="Transaction"
+        android:id="@+id/transaction"
         android:icon="@drawable/ic_note"
         android:iconTint="@color/green_master"/>
     <item

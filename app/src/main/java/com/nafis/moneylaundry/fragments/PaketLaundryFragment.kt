@@ -100,10 +100,6 @@ class PaketLaundryFragment : Fragment() {
             intent.putExtra("isEdit", false)
             startActivityForResult(intent, REQUEST_CODE_ADD)
         }
-
-        binding.ivBackButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
     }
 
     fun deletePaketLaundry(packageLaundryId: Int) {

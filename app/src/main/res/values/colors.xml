@@ -10,7 +10,8 @@
     <color name="bar_color">#A6CEE3</color>
     <color name="btn_disable">#A7A7A7</color>
     <color name="text_button">#1E1E1E</color>
-    
+    <color name="green_toast">#00B923</color>
+
     // Color Premium Card
     <color name="black_card">#2C3729</color>
     <color name="gold_card">#CBB57B</color>

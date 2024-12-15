@@ -38,7 +38,7 @@ class AuthRepository {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     // Mengambil nilai `status` sebagai Boolean
-                    val status = responseBody?.get("status") as? Boolean ?: false
+                    val status = responseBody?.get("status") as? Boolean == true
                     val message = responseBody?.get("message") as? String ?: "Unknown error"
 
                     if (status) {

@@ -1,7 +1,6 @@
 package com.nafis.moneylaundry.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.SharedPreferencesHelper
-import com.nafis.moneylaundry.models.transactions.TransactionOrderItem
+import com.nafis.moneylaundry.models.transactions.TransactionOrderItemFilter
 
 class DaftarTransaksiRecyclerview(
-    private val listDaftarTransaksi: List<TransactionOrderItem?>,
+    private val listDaftarTransaksi: List<TransactionOrderItemFilter?>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<DaftarTransaksiRecyclerview.MyViewHolder>() {
 

@@ -1,11 +1,16 @@
 package com.nafis.moneylaundry.auth
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.MainActivity
 import com.nafis.moneylaundry.SharedPreferencesHelper
 import com.nafis.moneylaundry.api.ApiClient
@@ -26,19 +31,16 @@ class LoginActivity : AppCompatActivity() {
 
         val sharedPreferencesHelper = SharedPreferencesHelper(this)
 
-        // Periksa apakah token sudah ada, jika ya, arahkan ke MainActivity
         val token = sharedPreferencesHelper.getToken()
         if (!token.isNullOrEmpty()) {
-            // Token ada, arahkan ke MainActivity
             startActivity(Intent(this, MainActivity::class.java))
-            finish() // Jangan biarkan kembali ke halaman login
-            return // Hentikan eksekusi lebih lanjut
+            finish()
+            return
         }
 
-        // Proses login jika token belum ada
         val laundryRepository = LaundryRepository(ApiClient, application)
         val factory = UserViewModelFactory(application, laundryRepository)
-        userViewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
 
         userViewModel.loginResult.observe(this) { result ->
             result.onSuccess { loginResponse ->
@@ -74,11 +76,11 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("LoginActivity", "Store Name from SharedPreferences: $storeName")
                     Log.d("LoginActivity", "Store Address from SharedPreferences: $storeAddress")
                 }
-                Toast.makeText(this, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+                showCustomToastSuccess(this, "Login Berhasil!")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }.onFailure { exception ->
-                Toast.makeText(this, "Login Gagal: ${exception.message}", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Login Gagal!")
             }
         }
 
@@ -87,12 +89,23 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.edtPassword.text.toString().trim()
 
             if (!isValidLoginInput(email, password)) {
-                Toast.makeText(this, "Email atau Password tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Email atau Password tidak boleh kosong")
                 return@setOnClickListener
             }
 
-            // Panggil metode login
+            userViewModel.isLoading.observe(this) { isLoading ->
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+
             userViewModel.loginUser(email, password)
+
+            userViewModel.loginResult.observe(this) { result ->
+                result.onSuccess {
+                    showCustomToastSuccess(this, "Login berhasil")
+                }.onFailure {
+                    showCustomToastError(this, "Login gagal: ${it.message}")
+                }
+            }
         }
 
         binding.tvFogetPassword.setOnClickListener {
@@ -108,5 +121,39 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isValidLoginInput(email: String, password: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

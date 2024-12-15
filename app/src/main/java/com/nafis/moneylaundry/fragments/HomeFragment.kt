@@ -24,6 +24,7 @@ import com.nafis.moneylaundry.models.packageLaundry.ResponseGetPackage
 import com.nafis.moneylaundry.models.transactions.ResponseDashboard
 import com.nafis.moneylaundry.repository.LaundryRepository
 import com.nafis.moneylaundry.transaction.NewTransactionActivity
+import com.nafis.moneylaundry.transaction.PremiumActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -97,6 +98,15 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        binding.viewFlipper.setInAnimation(requireContext(), android.R.anim.fade_in)
+        binding.viewFlipper.setOutAnimation(requireContext(), android.R.anim.fade_out)
+        binding.viewFlipper.setOnClickListener {
+            val intent = Intent(requireContext(), PremiumActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.viewFlipper.startFlipping()
     }
 
     @Deprecated("Deprecated in Java")
@@ -149,13 +159,24 @@ class HomeFragment : Fragment() {
             val parsedAmount = amount?.toIntOrNull() ?: 0
             val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
             format.format(parsedAmount).replace("Rp", "Rp ").replace(",00", "")
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             "Rp. 0"
         }
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun fetchAndUpdateData() {
         Log.d("HomeFragment", "fetchAndUpdateData() called")
+
+        if (_binding == null) {
+            Log.e("HomeFragment", "Binding sudah null, tidak dapat melanjutkan.")
+            return
+        }
 
         if (userId == 0) {
             Log.e("HomeFragment", "User ID tidak ditemukan.")
@@ -238,11 +259,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

@@ -12,10 +12,12 @@ import com.nafis.moneylaundry.models.packageLaundry.ResponseUpdatePackage
 import com.nafis.moneylaundry.models.transactions.CreateOrderRequest
 import com.nafis.moneylaundry.models.transactions.ResponseCreateOrder
 import com.nafis.moneylaundry.models.transactions.ResponseDashboard
+import com.nafis.moneylaundry.models.transactions.ResponseFilterOrder
 import com.nafis.moneylaundry.models.transactions.ResponseGetOrder
 import com.nafis.moneylaundry.models.transactions.ResponseSendInvoice
 import com.nafis.moneylaundry.models.transactions.ResponseTransactionOrder
 import com.nafis.moneylaundry.models.transactions.ResponseUpdatePayment
+import com.nafis.moneylaundry.models.transactions.ResponseUpdateStatus
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -111,4 +113,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
     ): Call<ResponseMoney>
+
+    @PUT("user/update-status-order/{transactionOrderId}")
+    fun updateStatusTransaction(
+        @Header("Authorization") token: String,
+        @Path("transactionOrderId") transactionOrderId: Int,
+        @Body requestBody: Map<String, String>
+    ): Call<ResponseUpdateStatus>
+
+    @POST("user/filter-transaction-order/{userId}")
+    fun filterTransactionOrder(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int,
+        @Body requestBody: Map<String, String>
+    ): Call<ResponseFilterOrder>
 }

@@ -15,14 +15,15 @@ class PremiumActivity : AppCompatActivity() {
         binding = ActivityPremiumBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val whatsAppUrl = "https://wa.me/6281217147620?text=%2ASaya+Ingin+Bergabung+Menjadi+member"
+        val whatsAppUrlSilver = "https://wa.me/6281217147620?text=Hallo%20mimin%2C%0A%0Asaya%20tertarik%20untuk%20berlangganan%20Silver%20Membership.%20Bisa%20tolong%20informasikan%20cara%20daftar%20dan%20pembayaran%20untuk%20paket%20ini%20%F0%9F%98%8A%3F%0A%0ATerima%C2%A0kasih"
+        val whatsAppUrlGold = "https://wa.me/6281217147620?text=Hallo%20mimin%2C%0A%0Asaya%20tertarik%20untuk%20berlangganan%20Gold%20Membership.%20Bisa%20tolong%20informasikan%20cara%20daftar%20dan%20pembayaran%20untuk%20paket%20ini%20%F0%9F%98%8A%3F%0A%0ATerima%C2%A0kasih"
 
         binding.btnSilver.setOnClickListener {
-            openWhatsApp(whatsAppUrl)
+            openWhatsApp(whatsAppUrlSilver)
         }
 
         binding.btnGold.setOnClickListener {
-            openWhatsApp(whatsAppUrl)
+            openWhatsApp(whatsAppUrlGold)
         }
 
         binding.ivBackButton.setOnClickListener {

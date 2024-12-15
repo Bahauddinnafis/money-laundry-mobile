@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -53,10 +56,10 @@ class EditPaketActivity : AppCompatActivity() {
 
         userViewModel.updatePaketResult.observe(this) { result ->
             result.onSuccess {
-                Toast.makeText(this, "Paket Laundry Berhasil diperbarui", Toast.LENGTH_SHORT).show()
+                showCustomToastSuccess(this, "Paket Laundry Berhasil diperbarui")
                 finish()
             }.onFailure { exception ->
-                Toast.makeText(this, "Gagal memperbarui paket laundry: ${exception.message}", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Gagal memperbarui paket laundry")
             }
         }
 
@@ -75,7 +78,7 @@ class EditPaketActivity : AppCompatActivity() {
             val logo = selectedImage ?: paketLaundry.logo
 
             if (name.isEmpty() || pricePerKg == null || pricePerKg <= 0 || description.isEmpty()) {
-                Toast.makeText(this, "Harap lengkapi semua field dengan benar.", Toast.LENGTH_SHORT).show()
+                showCustomToastError(this, "Harap lengkapi semua field dengan benar.")
                 return@setOnClickListener
             }
 
@@ -124,5 +127,39 @@ class EditPaketActivity : AppCompatActivity() {
     @SuppressLint("DiscouragedApi")
     private fun getImageResourceByName(context: Context, logoName: String): Int {
         return context.resources.getIdentifier(logoName, "drawable", context.packageName)
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastSuccess(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_success, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_check_circle)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("InflateParams")
+    fun showCustomToastError(activity: AppCompatActivity, message: String) {
+        val inflater = activity.layoutInflater
+        val layout: View = inflater.inflate(R.layout.custom_toast_error, null)
+
+        val icon = layout.findViewById<ImageView>(R.id.toast_icon)
+        val text = layout.findViewById<TextView>(R.id.toast_message)
+        text.text = message
+        icon.setImageResource(R.drawable.ic_cancel)
+
+        val toast = Toast(activity.applicationContext)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
+        toast.show()
     }
 }

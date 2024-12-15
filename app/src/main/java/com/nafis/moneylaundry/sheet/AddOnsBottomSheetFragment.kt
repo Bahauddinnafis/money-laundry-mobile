@@ -1,15 +1,13 @@
 package com.nafis.moneylaundry.sheet
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.nafis.moneylaundry.R
 import com.nafis.moneylaundry.data.AddonDetail
 import com.nafis.moneylaundry.databinding.AddonsBottomSheetBinding
 import com.nafis.moneylaundry.transaction.OnAddonsAddedListener
@@ -30,6 +28,7 @@ class AddOnsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         existingAddon = arguments?.getParcelable("existingAddon")
@@ -42,12 +41,14 @@ class AddOnsBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         _binding = AddonsBottomSheetBinding.inflate(inflater, container, false)
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         val edtNewAddons = binding.edtNamaAddons
         val edtHargaAddons = binding.edtHargaAddons
         val edtJumlahAddons = binding.edtJumlahAddons
         val btnSimpan = binding.btnSimpan
         val btnBatalkan = binding.btnBatalkan
-        val btnSelesai = binding.btnSelesai
 
         existingAddon?.let {
             edtNewAddons.setText(it.addonName)
@@ -74,8 +75,6 @@ class AddOnsBottomSheetFragment : BottomSheetDialogFragment() {
             }
         }
 
-//        addAddonDetail(newAddons, hargaAddons, jumlahAddons, totalHarga.toString())
-
         btnBatalkan.setOnClickListener {
             if (existingAddon != null) {
                 edtNewAddons.setText(existingAddon!!.addonName)
@@ -91,16 +90,6 @@ class AddOnsBottomSheetFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         return binding.root
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun addAddonDetail(addonName: String, addonPrice: String, addonQuantity: String, totalPrice: String) {
-        val detailAddonsView = LayoutInflater.from(requireContext()).inflate(R.layout.layout_detail_addons, null)
-        val tvDetailAddons = detailAddonsView.findViewById<TextView>(R.id.tv_detail_addons)
-
-        tvDetailAddons.text = "$addonName x $addonQuantity = Rp. $totalPrice"
-
-        binding.llDetailAddons.addView(detailAddonsView)
     }
 
     override fun onDestroyView() {

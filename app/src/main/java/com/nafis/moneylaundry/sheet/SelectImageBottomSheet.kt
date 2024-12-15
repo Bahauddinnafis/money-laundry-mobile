@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nafis.moneylaundry.adapter.SelectImageAdapter
 import com.nafis.moneylaundry.data.SelectImage
@@ -22,6 +23,9 @@ class SelectImageBottomSheet(private val onImageSelected: (String) -> Unit) : Bo
     ): View? {
         _binding = SelectImageSheetBinding.inflate(inflater, container, false)
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.flSelectImage)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         setUpRecyclerView()
 
         return binding.root
@@ -29,9 +33,8 @@ class SelectImageBottomSheet(private val onImageSelected: (String) -> Unit) : Bo
 
     private fun setUpRecyclerView() {
         val selectImageAdapter = SelectImageAdapter(SelectImage.allImage) { selectedImage ->
-            // Mengirimkan nama gambar yang dipilih (imageName)
             onImageSelected(selectedImage.imageName)
-            dismiss() // Menutup bottom sheet setelah gambar dipilih
+            dismiss()
         }
         binding.rvSelectImage.apply {
             adapter = selectImageAdapter
